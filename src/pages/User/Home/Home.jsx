@@ -1,7 +1,7 @@
-import Navbar from "../../components/Navbar/Navbar"
-import HeroBanner from "../../components/HeroBanner/HeroBanner"
-import SectionTitle from "../../components/SectionTitle/SectionTitle"
-import EventCard from "../../components/EventCard/EventCard"
+import Navbar from "../../../components/Navbar/Navbar"
+import HeroBanner from "../../../components/HeroBanner/HeroBanner"
+import SectionTitle from "../../../components/SectionTitle/SectionTitle"
+import EventCard from "../../../components/EventCard/EventCard"
 import styles from "./Home.module.css"
 
 const featuredEvents = [

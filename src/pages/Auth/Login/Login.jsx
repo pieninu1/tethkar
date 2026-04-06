@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Link, useNavigate } from "react-router-dom"
-import FormModel from "../../components/FormModel/FormModel"
-import Input from "../../components/Input/Input"
-import Button from "../../components/Button/Button"
+import FormModel from "../../../components/FormModel/FormModel"
+import Input from "../../../components/Input/Input"
+import Button from "../../../components/Button/Button"
 import { loginSchema } from "./loginSchema"
 import styles from "./Login.module.css"
 

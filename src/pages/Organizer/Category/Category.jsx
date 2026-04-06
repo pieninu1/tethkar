@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react"
 import CategoryModal from "./CategoryModal/CategoryModal"
-import DeleteModal from "../../components/DeleteModal/DeleteModal"
-import TopPart from "../../components/TopPart/TopPart"
-import Button from "../../components/Button/Button"
+import DeleteModal from "../../../components/DeleteModal/DeleteModal"
+import TopPart from "../../../components/TopPart/TopPart"
+import Button from "../../../components/Button/Button"
 import styles from "./Category.module.css"
 import {
   getCategories,
   addCategory,
   updateCategory,
   deleteCategory,
-} from "../../services/CategoryService"
+} from "../../../services/CategoryService"
 
 const Category = () => {
   const [defaultModalOpen, setDefaultModalOpen] = useState(false)

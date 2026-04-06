@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react"
 import EventModal from "./EventModal/EventModal"
-import DeleteModal from "../../components/DeleteModal/DeleteModal"
-import TopPart from "../../components/TopPart/TopPart"
-import Button from "../../components/Button/Button"
+import DeleteModal from "../../../components/DeleteModal/DeleteModal"
+import TopPart from "../../../components/TopPart/TopPart"
+import Button from "../../../components/Button/Button"
 import styles from "./Event.module.css"
-import { getEvents, addEvent, updateEvent, deleteEvent } from "../../services/EventService"
-import { getCities } from "../../services/CityService"
-import { getCategories } from "../../services/CategoryService"
+import { getEvents, addEvent, updateEvent, deleteEvent } from "../../../services/EventService"
+import { getCities } from "../../../services/CityService"
+import { getCategories } from "../../../services/CategoryService"
 
 const Event = () => {
   const [defaultModalOpen, setDefaultModalOpen] = useState(false)

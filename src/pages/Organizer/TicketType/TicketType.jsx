@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react"
 import TicketTypeModal from "./TicketTypeModal/TicketTypeModal"
-import DeleteModal from "../../components/DeleteModal/DeleteModal"
-import TopPart from "../../components/TopPart/TopPart"
-import Button from "../../components/Button/Button"
+import DeleteModal from "../../../components/DeleteModal/DeleteModal"
+import TopPart from "../../../components/TopPart/TopPart"
+import Button from "../../../components/Button/Button"
 import styles from "./TicketType.module.css"
 import {
   getTicketTypes,
   addTicketType,
   updateTicketType,
   deleteTicketType,
-} from "../../services/TicketTypeService"
-import { getEvents } from "../../services/EventService"
+} from "../../../services/TicketTypeService"
+import { getEvents } from "../../../services/EventService"
 
 const TicketType = () => {
   const [defaultModalOpen, setDefaultModalOpen] = useState(false)

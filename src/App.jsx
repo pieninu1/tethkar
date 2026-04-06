@@ -1,12 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 
-import Login from "./pages/Login/Login"
-import Register from "./pages/Register/Register"
-import Home from "./pages/Home/Home"
-import Event from "./pages/Event/Event"
-import Category from "./pages/Category/Category"
-import TicketType from "./pages/TicketType/TicketType"
-import Profile from "./pages/Profile/Profile"
+import Login from "./pages/Auth/Login/Login"
+import Register from "./pages/Auth/Register/Register"
+import ForgotPassword from "./pages/Auth/ForgotPassword/ForgotPassword"
+import Home from "./pages/User/Home/Home"
+import Event from "./pages/Organizer/Event/Event"
+import Category from "./pages/Organizer/Category/Category"
+import TicketType from "./pages/Organizer/TicketType/TicketType"
+import Profile from "./pages/User/Profile/Profile"
 import Guard from "./components/Guard/Guard"
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         {/* Public routes */}
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
 
         {/* Protected routes */}
         <Route element={<Guard />}>

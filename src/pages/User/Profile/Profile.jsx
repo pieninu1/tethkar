@@ -1,6 +1,6 @@
-import ProfileMenu from "../../components/ProfileMenu/ProfileMenu";
-import SectionCard from "../../components/SectionCard/SectionCard";
-import InfoRow from "../../components/InfoRow/InfoRow";
+import ProfileMenu from "../../../components/ProfileMenu/ProfileMenu";
+import SectionCard from "../../../components/SectionCard/SectionCard";
+import InfoRow from "../../../components/InfoRow/InfoRow";
 import styles from "./Profile.module.css";
 
 const Profile = () => {
