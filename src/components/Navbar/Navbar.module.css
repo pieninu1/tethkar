@@ -1,0 +1,70 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 40px;
+  background-color: #1e1e1e;
+  direction: rtl;
+}
+
+/* RIGHT SIDE */
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.logo {
+  height: 40px;
+  object-fit: contain;
+}
+
+/* NAV LINKS */
+.navLinks {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.navLinks li {
+  transition: 0.3s;
+}
+
+.navLinks li:hover {
+  opacity: 0.7;
+}
+
+/* LEFT SIDE */
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: white;
+}
+
+/* ICONS */
+.icon {
+  color: white;
+  font-size: 20px;
+  stroke-width: 1.5;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: 0.3s;
+}
+
+.icon:hover {
+  opacity: 1;
+}
+
+/* TEXT */
+.leftSection span {
+  font-size: 13px;
+  color: #b3b3b3;
+}
+
+.city {
+  color: #b3b3b3;
+}

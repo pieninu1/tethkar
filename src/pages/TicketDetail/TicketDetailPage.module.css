@@ -1,0 +1,111 @@
+.page {
+  min-height: 100vh;
+  background-color: var(--background-color);
+  color: var(--text-primary);
+  padding: 24px 20px 40px;
+  direction: rtl;
+  font-family: var(--font-family);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.brand {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.backLink {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 24px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 24px;
+}
+
+.ticketWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.ticketImage {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 20px;
+  object-fit: cover;
+}
+
+.infoBox {
+  background: linear-gradient(to left, #2a2929, #242323);
+  border-radius: 18px;
+  padding: 18px;
+  margin-bottom: 24px;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.infoRow:last-child {
+  border-bottom: none;
+}
+
+.label {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.value {
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+.primaryButton,
+.secondaryButton {
+  flex: 1;
+  height: 48px;
+  border: none;
+  border-radius: 12px;
+  font-family: var(--font-family);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.primaryButton {
+  background-color: var(--primary-color);
+  color: #212020;
+}
+
+.primaryButton:hover {
+  background-color: var(--secondary-color);
+}
+
+.secondaryButton {
+  background-color: #2f2f2f;
+  color: var(--text-primary);
+}
+
+.secondaryButton:hover {
+  background-color: #3a3a3a;
+}

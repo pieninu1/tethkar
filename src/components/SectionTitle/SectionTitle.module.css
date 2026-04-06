@@ -1,0 +1,25 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  direction: rtl;
+}
+
+.title {
+  color: var(--text-primary);
+  font-size: 28px;
+  margin: 0;
+}
+
+.action {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: var(--font-family);
+  font-size: 14px;
+}
+
+.action:hover {
+  color: var(--primary-color);
+}

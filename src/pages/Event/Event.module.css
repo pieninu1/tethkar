@@ -1,0 +1,40 @@
+.page {
+  padding: 2rem 1.5rem;
+}
+
+.eventsList {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: start;
+  gap: 1.25rem;
+}
+
+.card {
+  background: var(--white-color);
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1.25rem;
+  width: 300px;
+}
+
+.cardTitle {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+}
+
+.meta,
+.location,
+.description,
+.city {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+
+.cardActions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}

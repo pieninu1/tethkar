@@ -1,0 +1,49 @@
+# ----------------------
+# .NET
+# ----------------------
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio
+.vs/
+
+# Rider / VS Code
+.idea/
+.vscode/
+
+# ----------------------
+# Logs
+# ----------------------
+*.log
+
+# ----------------------
+# OS files
+# ----------------------
+.DS_Store
+Thumbs.db
+
+# ----------------------
+# Node / React / Vite
+# ----------------------
+node_modules/
+dist/
+.env
+.env.local
+.env.development
+.env.production
+
+# ----------------------
+# ASP.NET sensitive
+# ----------------------
+appsettings.Development.json
+appsettings.*.json
+
+# ----------------------
+# Database (optional)
+# ----------------------
+*.mdf
+*.ldf
