@@ -1,0 +1,15 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.message {
+  margin: 0;
+  color: var(--text-color);
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}

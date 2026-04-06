@@ -8,7 +8,7 @@ import Button from "../../../components/Button/Button"
 import { eventSchema } from "../EventSchema"
 import styles from "./EventModal.module.css"
 
-const EventModal = ({ isOpen, onClose, event, cities, onSubmit }) => {
+const EventModal = ({ isOpen, onClose, event, cities, categories, onSubmit }) => {
   const {
     register,
     handleSubmit,
@@ -18,13 +18,14 @@ const EventModal = ({ isOpen, onClose, event, cities, onSubmit }) => {
     resolver: zodResolver(eventSchema),
     mode: "all",
     defaultValues: {
-      eventName: "",
-      startDateTime: "",
-      endDateTime: "",
-      venue: "",
-      description: "",
-      cityId: undefined,
-      eventId: undefined,
+      Name: "",
+      StartDateTime: "",
+      EndDateTime: "",
+      Venue: "",
+      Description: "",
+      CityId: "",
+      CategoryId: "",
+      Id: undefined,
     },
   })
 
@@ -32,23 +33,25 @@ const EventModal = ({ isOpen, onClose, event, cities, onSubmit }) => {
     if (isOpen) {
       if (event) {
         reset({
-          eventName: event.eventName,
-          startDateTime: event.startDateTime?.slice(0, 16) || "",
-          endDateTime: event.endDateTime?.slice(0, 16) || "",
-          venue: event.venue,
-          description: event.description,
-          cityId: event.cityId,
-          eventId: event.eventId,
+          Name: event.name || "",
+          StartDateTime: event.startDateTime?.slice(0, 16) || "",
+          EndDateTime: event.endDateTime?.slice(0, 16) || "",
+          Venue: event.venue || "",
+          Description: event.description || "",
+          CityId: event.cityId ?? "",
+          CategoryId: event.categoryId ?? "",
+          Id: event.id,
         })
       } else {
         reset({
-          eventName: "",
-          startDateTime: "",
-          endDateTime: "",
-          venue: "",
-          description: "",
-          cityId: undefined,
-          eventId: undefined,
+          Name: "",
+          StartDateTime: "",
+          EndDateTime: "",
+          Venue: "",
+          Description: "",
+          CityId: "",
+          CategoryId: "",
+          Id: undefined,
         })
       }
     }
@@ -57,13 +60,14 @@ const EventModal = ({ isOpen, onClose, event, cities, onSubmit }) => {
   const handleFormSubmit = async (data) => {
     try {
       await onSubmit({
-        eventName: data.eventName,
-        startDateTime: data.startDateTime,
-        endDateTime: data.endDateTime,
-        venue: data.venue,
-        description: data.description,
-        cityId: Number(data.cityId),
-        eventId: event?.eventId,
+        Id: event?.id,
+        Name: data.Name,
+        StartDateTime: data.StartDateTime,
+        EndDateTime: data.EndDateTime,
+        Venue: data.Venue,
+        Description: data.Description,
+        CityId: Number(data.CityId),
+        CategoryId: Number(data.CategoryId),
       })
       onClose()
     } catch (error) {
@@ -71,7 +75,7 @@ const EventModal = ({ isOpen, onClose, event, cities, onSubmit }) => {
     }
   }
 
-  const title = event ? event.eventName : "إضافة فعالية"
+  const title = event ? `الفعالية: ${event.name}` : "إضافة فعالية"
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={title}>
@@ -81,56 +85,67 @@ const EventModal = ({ isOpen, onClose, event, cities, onSubmit }) => {
             label="اسم الفعالية"
             type="text"
             placeholder="أدخل اسم الفعالية"
-            error={errors.eventName?.message}
-            {...register("eventName")}
+            error={errors.Name?.message}
+            {...register("Name")}
           />
 
           <Input
             label="تاريخ البداية"
             type="datetime-local"
-            error={errors.startDateTime?.message}
-            {...register("startDateTime")}
+            error={errors.StartDateTime?.message}
+            {...register("StartDateTime")}
           />
 
           <Input
             label="تاريخ النهاية"
             type="datetime-local"
-            error={errors.endDateTime?.message}
-            {...register("endDateTime")}
+            error={errors.EndDateTime?.message}
+            {...register("EndDateTime")}
           />
 
           <Input
             label="الموقع"
             type="text"
             placeholder="أدخل الموقع"
-            error={errors.venue?.message}
-            {...register("venue")}
+            error={errors.Venue?.message}
+            {...register("Venue")}
           />
 
           <Input
             label="الوصف"
             type="text"
             placeholder="أدخل وصف الفعالية"
-            error={errors.description?.message}
-            {...register("description")}
+            error={errors.Description?.message}
+            {...register("Description")}
           />
 
           <div className={styles.field}>
-            <label htmlFor="cityId">المدينة</label>
-            <select
-              id="cityId"
-              className={styles.select}
-              {...register("cityId", { valueAsNumber: true })}
-            >
+            <label htmlFor="CityId">المدينة</label>
+            <select id="CityId" className={styles.select} {...register("CityId")}>
               <option value="">اختر المدينة</option>
               {cities?.map((city) => (
-                <option key={city.cityId} value={city.cityId}>
-                  {city.cityName}
+                <option key={city.id} value={city.id}>
+                  {city.name}
                 </option>
               ))}
             </select>
-            {errors.cityId && (
-              <span className={styles.error}>{errors.cityId.message}</span>
+            {errors.CityId && (
+              <span className={styles.error}>{errors.CityId.message}</span>
+            )}
+          </div>
+
+          <div className={styles.field}>
+            <label htmlFor="CategoryId">التصنيف</label>
+            <select id="CategoryId" className={styles.select} {...register("CategoryId")}>
+              <option value="">اختر التصنيف</option>
+              {categories?.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+            {errors.CategoryId && (
+              <span className={styles.error}>{errors.CategoryId.message}</span>
             )}
           </div>
 

@@ -24,7 +24,7 @@ export const addCategory = async (category) => {
 };
 
 export const updateCategory = async (category) => {
-  const response = await fetch(`${API_URL}/api/Categories/${category.categoryId}`, {
+  const response = await fetch(`${API_URL}/api/Categories/${category.Id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

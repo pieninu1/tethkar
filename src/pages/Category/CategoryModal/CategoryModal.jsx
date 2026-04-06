@@ -17,15 +17,15 @@ const CategoryModal = ({ isOpen, onClose, category, onSubmit }) => {
   } = useForm({
     resolver: zodResolver(categorySchema),
     mode: "all",
-    defaultValues: { categoryName: "", categoryId: undefined },
+    defaultValues: { Name: "", Id: undefined },
   })
 
   useEffect(() => {
     if (isOpen) {
       reset(
         category
-          ? { categoryName: category.categoryName, categoryId: category.categoryId }
-          : { categoryName: "", categoryId: undefined }
+          ? { Name: category.name, Id: category.id }
+          : { Name: "", Id: undefined }
       )
     }
   }, [isOpen, category, reset])
@@ -33,8 +33,8 @@ const CategoryModal = ({ isOpen, onClose, category, onSubmit }) => {
   const handleFormSubmit = async (data) => {
     try {
       await onSubmit({
-        categoryName: data.categoryName,
-        categoryId: category?.categoryId,
+        Name: data.Name,
+        Id: category?.id,
       })
       onClose()
     } catch (error) {
@@ -42,9 +42,7 @@ const CategoryModal = ({ isOpen, onClose, category, onSubmit }) => {
     }
   }
 
-  const title = category
-    ? `التصنيف: ${category.categoryName}`
-    : "إضافة تصنيف"
+  const title = category ? `التصنيف: ${category.name}` : "إضافة تصنيف"
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={title}>
@@ -54,19 +52,13 @@ const CategoryModal = ({ isOpen, onClose, category, onSubmit }) => {
             label="الاسم"
             type="text"
             placeholder="اسم التصنيف"
-            error={errors.categoryName?.message}
-            {...register("categoryName")}
+            error={errors.Name?.message}
+            {...register("Name")}
           />
 
           <Button
             type="submit"
-            text={
-              isSubmitting
-                ? "جاري الحفظ..."
-                : category
-                ? "تحديث"
-                : "إضافة"
-            }
+            text={isSubmitting ? "جاري الحفظ..." : category ? "تحديث" : "إضافة"}
             disabled={isSubmitting}
           />
         </form>

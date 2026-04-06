@@ -28,7 +28,9 @@ const Category = () => {
   }
 
   useEffect(() => {
-    fetchCategories()
+    ;(async () => {
+      await fetchCategories()
+    })()
   }, [])
 
   const openAddModal = () => {
@@ -59,8 +61,8 @@ const Category = () => {
   const handleConfirmDelete = async () => {
     if (categoryToDelete) {
       try {
-        await deleteCategory(categoryToDelete.categoryId)
-        fetchCategories()
+        await deleteCategory(categoryToDelete.id)
+        await fetchCategories()
         closeDeleteModal()
       } catch (error) {
         console.error("Error deleting category", error)
@@ -69,10 +71,10 @@ const Category = () => {
   }
 
   const handleCategorySubmit = async (data) => {
-    if (data.categoryId != null) {
+    if (data.Id != null) {
       try {
         await updateCategory(data)
-        fetchCategories()
+        await fetchCategories()
         closeDefaultModal()
       } catch (error) {
         console.error("Error updating category", error)
@@ -80,7 +82,7 @@ const Category = () => {
     } else {
       try {
         await addCategory(data)
-        fetchCategories()
+        await fetchCategories()
         closeDefaultModal()
       } catch (error) {
         console.error("Error adding category", error)
@@ -96,8 +98,8 @@ const Category = () => {
 
       <ul className={styles.list}>
         {categories.map((category) => (
-          <li key={category.categoryId} className={styles.item}>
-            <span className={styles.name}>{category.categoryName}</span>
+          <li key={category.id} className={styles.item}>
+            <span className={styles.name}>{category.name}</span>
 
             <span className={styles.actions}>
               <Button
@@ -129,7 +131,7 @@ const Category = () => {
         title="حذف التصنيف"
         message={
           categoryToDelete
-            ? `هل أنت متأكد من حذف التصنيف "${categoryToDelete.categoryName}"؟`
+            ? `هل أنت متأكد من حذف التصنيف "${categoryToDelete.name}"؟`
             : ""
         }
       />

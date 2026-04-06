@@ -24,7 +24,7 @@ export const addEvent = async (event) => {
 };
 
 export const updateEvent = async (event) => {
-  const response = await fetch(`${API_URL}/api/Events/${event.eventId}`, {
+  const response = await fetch(`${API_URL}/api/Events/${event.Id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
