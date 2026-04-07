@@ -1,0 +1,64 @@
+.footer {
+  margin-top: 40px;
+  padding: 28px 20px;
+  background: #1a1a1a;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  direction: rtl;
+}
+
+/* SOCIAL ICONS */
+.socials {
+  display: flex;
+  gap: 18px;
+}
+
+.socials img {
+  width: 22px;
+  height: 22px;
+  opacity: 0.8;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.socials img:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* LINKS */
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.links li {
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.links li:hover {
+  color: var(--primary-color);
+}
+
+/* PAYMENT */
+.payments {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.payments img {
+  height: 20px;
+  object-fit: contain;
+  opacity: 0.9;
+}

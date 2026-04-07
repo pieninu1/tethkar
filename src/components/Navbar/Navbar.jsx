@@ -8,8 +8,6 @@ import styles from "./Navbar.module.css"
 const Navbar = () => {
   return (
     <nav className={styles.navbar}>
-      
-      {/* RIGHT SIDE (Logo + Links) */}
       <div className={styles.rightSection}>
         <img
           src="/images/the-logo.png"
@@ -25,7 +23,6 @@ const Navbar = () => {
         </ul>
       </div>
 
-      {/* LEFT SIDE (Icons) */}
       <div className={styles.leftSection}>
         <HiOutlineLocationMarker className={styles.icon} />
         <span className={styles.city}>جدة</span>
