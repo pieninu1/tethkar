@@ -6,6 +6,7 @@ import Input from "../../../components/Input/Input"
 import Button from "../../../components/Button/Button"
 import { loginSchema } from "./loginSchema"
 import styles from "./Login.module.css"
+import { login } from "../../../services/AuthService"
 
 const Login = () => {
   const navigate = useNavigate()
@@ -26,12 +27,13 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     try {
-      // const response = await login({
-      //   email: data.email,
-      //   password: data.password,
-      // })
-      console.log(data)
-      // localStorage.setItem("token", response.token)
+      const response = await login({
+        email: data.email,
+        password: data.password,
+      })
+      console.log(response)
+      //console.log(data)
+       localStorage.setItem("token", response.token)
       if (data.rememberMe) {
         localStorage.setItem("rememberMe", "true")
       } else {
