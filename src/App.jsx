@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
-
 import Login from "./pages/Login/Login"
 import Register from "./pages/Register/Register"
 import Home from "./pages/Home/Home"
@@ -7,7 +6,7 @@ import Event from "./pages/Event/Event"
 import Category from "./pages/Category/Category"
 import TicketType from "./pages/TicketType/TicketType"
 import Profile from "./pages/Profile/Profile"
-import Guard from "./components/Guard/Guard"
+import Guard from "./Guards/Guard"
 
 function App() {
   return (
