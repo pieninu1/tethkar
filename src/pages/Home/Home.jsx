@@ -1,4 +1,4 @@
-import Navbar from "../../components/Navbar/Navbar"
+import Navbar from "../../layouts/UserLayout/UserNavbar/Navbar"
 import HeroBanner from "../../components/HeroBanner/HeroBanner"
 import SectionTitle from "../../components/SectionTitle/SectionTitle"
 import EventCard from "../../components/EventCard/EventCard"
