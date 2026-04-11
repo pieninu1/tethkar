@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Link } from "react-router-dom"
-import FormModel from "../../../components/FormModel/FormModel"
-import Input from "../../../components/Input/Input"
-import Button from "../../../components/Button/Button"
+import FormModel from "../../../components/common/FormModel/FormModel"
+import Input from "../../../components/common/Input/Input"
+import Button from "../../../components/common/Button/Button"
 import { forgotPasswordSchema } from "./forgotPasswordSchema"
 import styles from "./ForgotPassword.module.css"
 

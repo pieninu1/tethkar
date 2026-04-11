@@ -1,18 +1,26 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import Modal from "../../../../components/Modal/Modal"
-import FormModel from "../../../../components/FormModel/FormModel"
-import Input from "../../../../components/Input/Input"
-import Button from "../../../../components/Button/Button"
+import Modal from "../../../../components/common/Modal/Modal"
+import Input from "../../../../components/common/Input/Input"
 import { eventSchema } from "../EventSchema"
 import styles from "./EventModal.module.css"
 
-const EventModal = ({ isOpen, onClose, event, cities, categories, onSubmit }) => {
+const EventModal = ({
+  isOpen,
+  onClose,
+  event,
+  cities,
+  categories,
+  onSubmit,
+}) => {
+  const [imagePreview, setImagePreview] = useState(null)
+
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(eventSchema),
@@ -25,37 +33,51 @@ const EventModal = ({ isOpen, onClose, event, cities, categories, onSubmit }) =>
       Description: "",
       CityId: "",
       CategoryId: "",
+      Image: undefined,
       Id: undefined,
     },
   })
 
   useEffect(() => {
-    if (isOpen) {
-      if (event) {
-        reset({
-          Name: event.name || "",
-          StartDateTime: event.startDateTime?.slice(0, 16) || "",
-          EndDateTime: event.endDateTime?.slice(0, 16) || "",
-          Venue: event.venue || "",
-          Description: event.description || "",
-          CityId: event.cityId ?? "",
-          CategoryId: event.categoryId ?? "",
-          Id: event.id,
-        })
-      } else {
-        reset({
-          Name: "",
-          StartDateTime: "",
-          EndDateTime: "",
-          Venue: "",
-          Description: "",
-          CityId: "",
-          CategoryId: "",
-          Id: undefined,
-        })
-      }
+    if (!isOpen) return
+
+    if (event) {
+      reset({
+        Name: event.name || "",
+        StartDateTime: event.startDateTime?.slice(0, 16) || "",
+        EndDateTime: event.endDateTime?.slice(0, 16) || "",
+        Venue: event.venue || "",
+        Description: event.description || "",
+        CityId: event.cityId ?? "",
+        CategoryId: event.categoryId ?? "",
+        Image: event.image || undefined,
+        Id: event.id,
+      })
+      setImagePreview(event.image || null)
+    } else {
+      reset({
+        Name: "",
+        StartDateTime: "",
+        EndDateTime: "",
+        Venue: "",
+        Description: "",
+        CityId: "",
+        CategoryId: "",
+        Image: undefined,
+        Id: undefined,
+      })
+      setImagePreview(null)
     }
   }, [isOpen, event, reset])
+
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    const previewUrl = URL.createObjectURL(file)
+    setImagePreview(previewUrl)
+    setValue("Image", previewUrl, { shouldValidate: false })
+  }
 
   const handleFormSubmit = async (data) => {
     try {
@@ -68,94 +90,169 @@ const EventModal = ({ isOpen, onClose, event, cities, categories, onSubmit }) =>
         Description: data.Description,
         CityId: Number(data.CityId),
         CategoryId: Number(data.CategoryId),
+        Image: data.Image || imagePreview || null,
       })
-      onClose()
     } catch (error) {
       console.error("Error submitting event", error)
     }
   }
 
-  const title = event ? `الفعالية: ${event.name}` : "إضافة فعالية"
-
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={title}>
-      <FormModel>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title=""
+      hideHeader
+      className={styles.modalShell}
+      bodyClassName={styles.modalBody}
+    >
+      <div className={styles.wrapper}>
+        <div className={styles.headerRow}>
+          <h2 className={styles.title}>
+            {event ? "تعديل فعالية" : "إنشاء فعالية جديدة"}
+          </h2>
+
+          <button
+            type="button"
+            className={styles.closeBtn}
+            onClick={onClose}
+            aria-label="إغلاق"
+          >
+            ×
+          </button>
+        </div>
+
         <form onSubmit={handleSubmit(handleFormSubmit)} className={styles.form}>
-          <Input
-            label="اسم الفعالية"
-            type="text"
-            placeholder="أدخل اسم الفعالية"
-            error={errors.Name?.message}
-            {...register("Name")}
-          />
+          <div className={styles.grid}>
+            <div className={styles.field}>
+              <Input
+                label="اسم الفعالية"
+                type="text"
+                error={errors.Name?.message}
+                {...register("Name")}
+              />
+            </div>
 
-          <Input
-            label="تاريخ البداية"
-            type="datetime-local"
-            error={errors.StartDateTime?.message}
-            {...register("StartDateTime")}
-          />
+            <div className={styles.field}>
+              <Input
+                label="الموقع"
+                type="text"
+                error={errors.Venue?.message}
+                {...register("Venue")}
+              />
+            </div>
 
-          <Input
-            label="تاريخ النهاية"
-            type="datetime-local"
-            error={errors.EndDateTime?.message}
-            {...register("EndDateTime")}
-          />
+            <div className={styles.field}>
+              <Input
+                label="تاريخ بداية الفعالية"
+                type="datetime-local"
+                error={errors.StartDateTime?.message}
+                {...register("StartDateTime")}
+              />
+            </div>
 
-          <Input
-            label="الموقع"
-            type="text"
-            placeholder="أدخل الموقع"
-            error={errors.Venue?.message}
-            {...register("Venue")}
-          />
+            <div className={styles.field}>
+              <label htmlFor="CityId" className={styles.selectLabel}>
+                المدينة
+              </label>
+              <select
+                id="CityId"
+                className={styles.select}
+                {...register("CityId")}
+              >
+                <option value="">اختر المدينة</option>
+                {cities?.map((city) => (
+                  <option key={city.id} value={city.id}>
+                    {city.name}
+                  </option>
+                ))}
+              </select>
+              {errors.CityId && (
+                <span className={styles.error}>{errors.CityId.message}</span>
+              )}
+            </div>
 
-          <Input
-            label="الوصف"
-            type="text"
-            placeholder="أدخل وصف الفعالية"
-            error={errors.Description?.message}
-            {...register("Description")}
-          />
+            <div className={styles.field}>
+              <Input
+                label="تاريخ نهاية الفعالية"
+                type="datetime-local"
+                error={errors.EndDateTime?.message}
+                {...register("EndDateTime")}
+              />
+            </div>
 
-          <div className={styles.field}>
-            <label htmlFor="CityId">المدينة</label>
-            <select id="CityId" className={styles.select} {...register("CityId")}>
-              <option value="">اختر المدينة</option>
-              {cities?.map((city) => (
-                <option key={city.id} value={city.id}>
-                  {city.name}
-                </option>
-              ))}
-            </select>
-            {errors.CityId && (
-              <span className={styles.error}>{errors.CityId.message}</span>
-            )}
+            <div className={styles.field}>
+              <label htmlFor="CategoryId" className={styles.selectLabel}>
+                الفئة
+              </label>
+              <select
+                id="CategoryId"
+                className={styles.select}
+                {...register("CategoryId")}
+              >
+                <option value="">اختر الفئة</option>
+                {categories?.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+              {errors.CategoryId && (
+                <span className={styles.error}>
+                  {errors.CategoryId.message}
+                </span>
+              )}
+            </div>
           </div>
 
           <div className={styles.field}>
-            <label htmlFor="CategoryId">التصنيف</label>
-            <select id="CategoryId" className={styles.select} {...register("CategoryId")}>
-              <option value="">اختر التصنيف</option>
-              {categories?.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-            {errors.CategoryId && (
-              <span className={styles.error}>{errors.CategoryId.message}</span>
+            <label htmlFor="Description" className={styles.selectLabel}>
+              الوصف
+            </label>
+            <textarea
+              id="Description"
+              className={styles.textarea}
+              {...register("Description")}
+            />
+            {errors.Description && (
+              <span className={styles.error}>{errors.Description.message}</span>
             )}
           </div>
 
-          <Button
-            type="submit"
-            text={isSubmitting ? "جاري الحفظ..." : event ? "تحديث" : "إضافة"}
-            disabled={isSubmitting}
-          />
+          <div className={styles.footerRow}>
+            <div className={styles.uploadArea}>
+              <label htmlFor="Image" className={styles.uploadLabel}>
+                رفع صورة
+              </label>
+              <input
+                id="Image"
+                type="file"
+                accept="image/*"
+                className={styles.fileInput}
+                onChange={handleImageChange}
+              />
+            </div>
+
+            {imagePreview && (
+              <img
+                src={imagePreview}
+                alt="معاينة"
+                className={styles.previewImage}
+              />
+            )}
+          </div>
+
+          <div className={styles.actionRow}>
+            <button
+              type="submit"
+              className={styles.submitBtn}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "جاري الحفظ..." : "إنشاء فعالية"}
+            </button>
+          </div>
         </form>
-      </FormModel>
+      </div>
     </Modal>
   )
 }

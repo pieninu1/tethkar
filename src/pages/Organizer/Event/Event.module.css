@@ -1,40 +1,37 @@
 .page {
-  padding: 2rem 1.5rem;
+  padding: 2rem;
 }
 
 .eventsList {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: start;
-  gap: 1.25rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
 }
 
 .card {
-  background: var(--white-color);
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  padding: 1.25rem;
-  width: 300px;
+  background: #2b2828;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: 0.3s;
 }
 
-.cardTitle {
-  margin: 0 0 0.5rem;
-  font-size: 1.1rem;
+.card:hover {
+  transform: translateY(-5px);
 }
 
-.meta,
-.location,
-.description,
-.city {
-  margin: 0 0 0.5rem;
-  font-size: 0.9rem;
-  color: var(--text-color);
+.image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
 }
 
-.cardActions {
+.content {
+  padding: 1rem;
+  color: white;
+}
+
+.actions {
   display: flex;
   gap: 0.5rem;
-  margin-top: 1rem;
+  padding: 1rem;
 }

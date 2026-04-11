@@ -1,0 +1,91 @@
+.modalShell {
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+  width: auto;
+  min-width: unset;
+  overflow: visible;
+}
+
+.modalBody {
+  color: inherit;
+  padding: 0;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 520px;
+  background: #2b2a2a;
+  border-radius: 22px;
+  padding: 1.35rem;
+  direction: rtl;
+  color: #f4efe8;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  direction: rtl;
+  margin-bottom: 1.3rem;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #f4efe8;
+  text-align: right;
+}
+
+.closeBtn {
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 1.3rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.closeBtn:hover {
+  color: var(--primary-color);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.actionRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.2rem;
+}
+
+.submitBtn {
+  background: var(--primary-color);
+  color: #1b1b1d;
+  border: none;
+  border-radius: 10px;
+  padding: 0.72rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.submitBtn:hover {
+  opacity: 0.92;
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

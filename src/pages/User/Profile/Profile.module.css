@@ -1,122 +1,135 @@
-.profilePage {
-  background-color: var(--bg-main);
-  color: var(--text-primary);
+.page {
   min-height: 100vh;
-  padding: 20px 40px;
-  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--text-primary);
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-}
-
-.logo {
-  font-size: 28px;
-  color: var(--primary);
-  font-weight: var(--font-bold);
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px 20px;
 }
 
 .mainContent {
   display: grid;
-  grid-template-columns: 1fr 1fr 320px;
-  gap: 24px;
-  max-width: 1400px;
-  margin: 0 auto;
+  grid-template-columns: 280px 1fr;
+  gap: 20px;
+  margin-top: 28px;
+  align-items: stretch;
 }
 
-.accountCard, .personalCard, .profileSidebar {
-  background-color: var(--bg-card);
-  border-radius: var(--border-radius);
-  padding: 24px;
-}
-
-.accountCard h3, .personalCard h3 {
-  color: var(--primary);
-  margin-bottom: 20px;
-}
-
-.accountInfo {
+.leftSection {
   display: flex;
-  gap: 40px;
-  margin-bottom: 20px;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
 }
 
-.infoRow {
-  display: flex;
-  justify-content: space-between;
-  padding: 12px 0;
-  border-bottom: 1px solid #3a3a3a;
+.accountCard,
+.personalCard {
+  background-color: #1e1e1e;
+  border: 1px solid #2b2a2a;
+  border-radius: 12px;
+  padding: 14px 16px;
 }
 
-.infoRow:last-child {
-  border-bottom: none;
+.accountCard {
+  flex: 0;
 }
 
-.editBtn {
-  background-color: var(--primary);
-  color: #212020;
-  padding: 10px 24px;
-  border-radius: var(--border-radius);
-  margin-top: 10px;
+.personalCard {
+  flex: 1;
 }
 
-.profileSidebar {
-  text-align: center;
-}
-
-.userAvatar img {
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  border: 4px solid var(--primary);
-  margin-bottom: 16px;
-}
-
-.menuItems {
-  margin: 30px 0;
+.cardTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
   text-align: right;
 }
 
-.menuItem {
-  padding: 12px 0;
-  cursor: pointer;
-  transition: 0.3s;
+.accountInfo {
+  margin-top: 10px;
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
 }
 
-.menuItem:hover {
-  color: var(--primary);
+.infoBlock,
+.infoRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: right;
 }
 
-.logoutBtn {
-  background-color: var(--accent-red);
-  color: white;
-  width: 100%;
-  padding: 14px;
-  border-radius: var(--border-radius);
-  margin-top: 20px;
-}
-
-.footer {
-  margin-top: 60px;
-  text-align: center;
+.label {
   color: var(--text-secondary);
-  font-size: 14px;
+  font-size: 12px;
 }
 
-.socialIcons {
-  font-size: 24px;
-  margin-bottom: 20px;
-  gap: 20px;
-  display: flex;
-  justify-content: center;
+.value {
+  color: var(--text-primary);
+  font-size: 13px;
 }
 
-.payment {
-  margin-top: 20px;
+.personalHeader {
   display: flex;
-  justify-content: center;
-  gap: 12px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.editBtn {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 11px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.editBtn:hover {
+  opacity: 0.7;
+}
+
+.personalInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@media (max-width: 992px) {
+  .mainContent {
+    grid-template-columns: 1fr;
+  }
+
+  .leftSection {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .accountInfo {
+    gap: 16px;
+  }
+
+  .personalCard {
+    flex: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 12px 18px;
+  }
+
+  .cardTitle {
+    font-size: 16px;
+  }
+
+  .accountInfo {
+    flex-direction: column;
+    gap: 12px;
+  }
 }

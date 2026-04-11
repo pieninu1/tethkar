@@ -1,10 +1,15 @@
 import { useState, useEffect } from "react"
 import EventModal from "./EventModal/EventModal"
-import DeleteModal from "../../../components/DeleteModal/DeleteModal"
-import TopPart from "../../../components/TopPart/TopPart"
-import Button from "../../../components/Button/Button"
+import DeleteModal from "../../../components/common/DeleteModal/DeleteModal"
+import TopPart from "../../../components/common/TopPart/TopPart"
+import Button from "../../../components/common/Button/Button"
 import styles from "./Event.module.css"
-import { getEvents, addEvent, updateEvent, deleteEvent } from "../../../services/EventService"
+import {
+  getEvents,
+  addEvent,
+  updateEvent,
+  deleteEvent,
+} from "../../../services/EventService"
 import { getCities } from "../../../services/CityService"
 import { getCategories } from "../../../services/CategoryService"
 
@@ -78,68 +83,96 @@ const Event = () => {
   }
 
   const handleConfirmDelete = async () => {
-    if (eventToDelete) {
-      try {
-        await deleteEvent(eventToDelete.id)
-        await fetchEvents()
-        closeDeleteModal()
-      } catch (error) {
-        console.error("Error deleting event", error)
-      }
+    if (!eventToDelete) return
+
+    try {
+      await deleteEvent(eventToDelete.id)
+      await fetchEvents()
+      closeDeleteModal()
+    } catch (error) {
+      console.error("Error deleting event", error)
     }
   }
 
   const handleEventSubmit = async (data) => {
-    if (data.Id != null) {
-      try {
+    try {
+      if (data.Id != null) {
         await updateEvent(data)
-        await fetchEvents()
-        closeDefaultModal()
-      } catch (error) {
-        console.error("Error updating event", error)
-      }
-    } else {
-      try {
+      } else {
         await addEvent(data)
-        await fetchEvents()
-        closeDefaultModal()
-      } catch (error) {
-        console.error("Error adding event", error)
       }
+
+      await fetchEvents()
+      closeDefaultModal()
+    } catch (error) {
+      console.error("Error saving event", error)
     }
   }
 
   return (
-    <main className={styles.page} aria-label="قائمة الفعاليات">
+    <main className={styles.page} aria-label="الفعاليات">
       <TopPart title="الفعاليات">
-        <Button text="إضافة فعالية" onClick={openAddModal} />
+        <Button text="إنشاء فعالية" onClick={openAddModal} />
       </TopPart>
 
-      <section className={styles.eventsList}>
-        {events.map((event) => (
-          <article key={event.id} className={styles.card}>
-            <h2 className={styles.cardTitle}>{event.name}</h2>
-            <p className={styles.meta}>البداية: {event.startDateTime}</p>
-            <p className={styles.meta}>النهاية: {event.endDateTime}</p>
-            <p className={styles.location}>{event.venue}</p>
-            <p className={styles.description}>{event.description}</p>
-            <p className={styles.city}>المدينة: {event.city?.name || "-"}</p>
-            <p className={styles.city}>التصنيف: {event.category?.name || "-"}</p>
+      <section className={styles.eventsSection}>
+        {events.length === 0 ? (
+          <div className={styles.emptyState}>لا توجد فعاليات حالياً</div>
+        ) : (
+          <div className={styles.eventsList}>
+            {events.map((event) => (
+              <article key={event.id} className={styles.eventCard}>
+                <div className={styles.cardImageWrapper}>
+                  {event.image ? (
+                    <img
+                      src={event.image}
+                      alt={event.name}
+                      className={styles.cardImage}
+                    />
+                  ) : (
+                    <div className={styles.imagePlaceholder}>بدون صورة</div>
+                  )}
+                </div>
 
-            <div className={styles.cardActions}>
-              <Button
-                text="تعديل"
-                onClick={() => openEditModal(event)}
-                variant="secondary"
-              />
-              <Button
-                text="حذف"
-                onClick={() => openDeleteModal(event)}
-                variant="danger"
-              />
-            </div>
-          </article>
-        ))}
+                <div className={styles.cardContent}>
+                  <h2 className={styles.cardTitle}>{event.name}</h2>
+
+                  <div className={styles.metaGroup}>
+                    <p className={styles.metaLine}>{event.startDateTime}</p>
+                    <p className={styles.metaLine}>{event.endDateTime}</p>
+                    <p className={styles.metaLine}>{event.venue}</p>
+                    <p className={styles.metaLine}>
+                      {event.city?.name || "-"}
+                    </p>
+                    <p className={styles.metaLine}>
+                      {event.category?.name || "-"}
+                    </p>
+                  </div>
+
+                  <p className={styles.description}>{event.description}</p>
+
+                  <div className={styles.cardActions}>
+                    <button
+                      type="button"
+                      className={styles.editBtn}
+                      onClick={() => openEditModal(event)}
+                    >
+                      تعديل
+                    </button>
+
+                    <button
+                      type="button"
+                      className={styles.deleteBtn}
+                      onClick={() => openDeleteModal(event)}
+                    >
+                      حذف
+                    </button>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
       </section>
 
       <EventModal
@@ -156,7 +189,11 @@ const Event = () => {
         onClose={closeDeleteModal}
         onConfirm={handleConfirmDelete}
         title="حذف الفعالية"
-        message={eventToDelete ? `هل أنت متأكد من حذف الفعالية "${eventToDelete.name}"؟` : ""}
+        message={
+          eventToDelete
+            ? `هل أنت متأكد من حذف الفعالية "${eventToDelete.name}"؟`
+            : ""
+        }
       />
     </main>
   )

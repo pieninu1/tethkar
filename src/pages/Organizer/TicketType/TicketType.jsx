@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react"
 import TicketTypeModal from "./TicketTypeModal/TicketTypeModal"
-import DeleteModal from "../../../components/DeleteModal/DeleteModal"
-import TopPart from "../../../components/TopPart/TopPart"
-import Button from "../../../components/Button/Button"
+import DeleteModal from "../../../components/common/DeleteModal/DeleteModal"
+import TopPart from "../../../components/common/TopPart/TopPart"
+import Button from "../../../components/common/Button/Button"
 import styles from "./TicketType.module.css"
 import {
   getTicketTypes,

@@ -1,0 +1,75 @@
+.dashboard {
+  direction: rtl;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.chartsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.chartCard {
+  background-color: #2b2828;
+  border-radius: 18px;
+  padding: 18px;
+  min-height: 280px;
+}
+
+.cardTitle {
+  color: #f2eadf;
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.statusWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 8px;
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.eventName {
+  color: #ffffff;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.badge {
+  min-width: 70px;
+  text-align: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.completed {
+  background: rgba(61, 153, 92, 0.18);
+  color: #59d17d;
+}
+
+.active {
+  background: rgba(44, 126, 255, 0.18);
+  color: #5ea2ff;
+}
+
+.upcoming {
+  background: rgba(226, 180, 62, 0.18);
+  color: #e0b84a;
+}

@@ -1,0 +1,157 @@
+.card {
+  display: block;
+  background: #242323;
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  text-decoration: none;
+  position: relative;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.22);
+}
+
+.imageWrapper {
+  position: relative;
+}
+
+.image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+/* ❤️ Favorite Button */
+.favoriteBtn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(20, 20, 20, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.favoriteBtn:hover {
+  background: rgba(30, 30, 30, 0.9);
+  transform: scale(1.05);
+}
+
+.favoriteIcon {
+  font-size: 18px;
+  color: #ffffff;
+}
+
+/* CONTENT */
+.content {
+  padding: 12px 12px 14px;
+  direction: rtl;
+}
+
+.type {
+  color: var(--text-secondary);
+  font-size: 12px;
+  margin: 0 0 6px;
+}
+
+.title {
+  color: var(--text-primary);
+  font-size: 16px;
+  margin: 0 0 8px;
+  line-height: 1.5;
+}
+
+.meta {
+  color: var(--text-secondary);
+  font-size: 12px;
+  margin: 0 0 10px;
+}
+
+.dot {
+  margin: 0 6px;
+}
+
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-primary);
+}
+
+.priceLabel {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.priceValue {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.currencyIcon {
+  width: 13px;
+  height: 13px;
+  object-fit: contain;
+}
+
+/* ===== COMPACT CARD (FAVORITES) ===== */
+.compactCard {
+  border-radius: 12px;
+}
+
+/*  smaller image */
+.compactCard .image {
+  height: 140px;
+}
+
+/*  tighter padding */
+.compactCard .content {
+  padding: 8px 8px 10px;
+}
+
+/*  smaller text */
+.compactCard .title {
+  font-size: 13px;
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.compactCard .type {
+  font-size: 10px;
+  margin-bottom: 3px;
+}
+
+.compactCard .meta {
+  font-size: 10px;
+  margin-bottom: 6px;
+}
+
+.compactCard .priceLabel {
+  font-size: 11px;
+}
+
+.compactCard .priceValue {
+  font-size: 13px;
+}
+
+/*  smaller heart */
+.compactCard .favoriteBtn {
+  width: 26px;
+  height: 26px;
+  top: 6px;
+  left: 6px;
+}
+
+.compactCard .favoriteIcon {
+  font-size: 14px;
+}

@@ -1,99 +1,44 @@
-import { useState } from "react"
-import Navbar from "../../../components/Navbar/Navbar"
-import HeroBanner from "../../../components/HeroBanner/HeroBanner"
-import SearchBar from "../../../components/SearchBar/SearchBar"
-import SectionTitle from "../../../components/SectionTitle/SectionTitle"
-import EventCard from "../../../components/EventCard/EventCard"
+import { useMemo, useState } from "react"
+import Navbar from "../../../components/User/Navbar/Navbar"
+import HeroBanner from "../../../components/User/HeroBanner/HeroBanner"
+import SearchBar from "../../../components/common/SearchBar/SearchBar"
+import SectionTitle from "../../../components/User/SectionTitle/SectionTitle"
+import EventCard from "../../../components/User/EventCard/EventCard"
+import CategoryCard from "../../../components/User/CategoryCard/CategoryCard"
+import CityCard from "../../../components/User/CityCard/CityCard"
+import Footer from "../../../components/common/Footer/Footer"
+import {
+  banners,
+  categories,
+  featuredEvents,
+  latestEvents,
+  locations,
+  seasonEvents,
+} from "../../../data/HomeData"
 import styles from "./Home.module.css"
-
-const banners = [
-  {
-    id: 1,
-    title: "يوم التأسيس",
-    subtitle: "ثلاثة قرون من العز والفخر",
-    image: "/images/banner-one.jpg",
-  },
-  {
-    id: 2,
-    title: "ليالي استثنائية",
-    subtitle: "فعاليات مميزة وتجارب لا تُنسى",
-    image: "/images/banner-two.jpg",
-  },
-  {
-    id: 3,
-    title: "استكشف أجمل الفعاليات",
-    subtitle: "احجز تذكرتك بسهولة وفي ثوانٍ",
-    image: "/images/banner-three.jpg",
-  },
-]
-
-const featuredEvents = [
-  {
-    id: 1,
-    title: "المدينة المائية",
-    subtitle: "منتزه ترفيهي",
-    date: "١ رجب - ١٠ شعبان",
-    location: "جدة",
-    price: 45,
-    image: "/images/event-one.jpg",
-  },
-  {
-    id: 2,
-    title: "ليالي الدرعية",
-    subtitle: "معرض",
-    date: "٣ شعبان - ٥ رمضان",
-    location: "الدرعية",
-    price: 85,
-    image: "/images/event-two.jpg",
-  },
-  {
-    id: 3,
-    title: "بوليفارد المغرب",
-    subtitle: "فعالية",
-    date: "١٣ شعبان",
-    location: "الرياض",
-    price: 60,
-    image: "/images/event-three.jpg",
-  },
-  {
-    id: 4,
-    title: "قيادة بتقديم أحمد الشقيري",
-    subtitle: "ملتقى",
-    date: "١٦ - ٢١ شعبان",
-    location: "الرياض",
-    price: 40,
-    image: "/images/event-four.jpg",
-  },
-  {
-    id: 5,
-    title: "3D Piper",
-    subtitle: "حفلة",
-    date: "٢٠ شعبان",
-    location: "الرياض",
-    price: 120,
-    image: "/images/event-five.jpg",
-  },
-]
 
 const Home = () => {
   const [searchValue, setSearchValue] = useState("")
 
-  const filteredEvents = featuredEvents.filter((event) => {
+  const filteredFeaturedEvents = useMemo(() => {
     const value = searchValue.trim().toLowerCase()
-    if (!value) return true
 
-    return (
-      event.title.toLowerCase().includes(value) ||
-      event.subtitle.toLowerCase().includes(value) ||
-      event.location.toLowerCase().includes(value)
-    )
-  })
+    if (!value) return featuredEvents
+
+    return featuredEvents.filter((event) => {
+      return (
+        event.title.toLowerCase().includes(value) ||
+        event.subtitle.toLowerCase().includes(value) ||
+        event.location.toLowerCase().includes(value)
+      )
+    })
+  }, [searchValue])
 
   return (
-    <section className={styles.page}>
-      <div className={styles.container}>
-        <Navbar />
+    <main className={styles.page}>
+      <Navbar />
 
+      <div className={styles.container}>
         <SearchBar
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
@@ -102,11 +47,10 @@ const Home = () => {
 
         <HeroBanner banners={banners} buttonText="احجز الآن" />
 
-        <div className={styles.section}>
+        <section className={styles.section}>
           <SectionTitle title="أبرز الفعاليات" actionText="عرض المزيد" />
-
           <div className={styles.cardsGrid}>
-            {filteredEvents.map((event) => (
+            {filteredFeaturedEvents.map((event) => (
               <EventCard
                 key={event.id}
                 id={event.id}
@@ -119,9 +63,74 @@ const Home = () => {
               />
             ))}
           </div>
-        </div>
+        </section>
+
+        <section className={styles.section}>
+          <SectionTitle title="أحدث الفعاليات" actionText="عرض المزيد" />
+          <div className={styles.fourCardsGrid}>
+            {latestEvents.map((event) => (
+              <EventCard
+                key={event.id}
+                id={event.id}
+                title={event.title}
+                subtitle={event.subtitle}
+                date={event.date}
+                location={event.location}
+                price={event.price}
+                image={event.image}
+                variant="compact"
+              />
+            ))}
+          </div>
+        </section>
+
+        <section className={styles.section}>
+          <SectionTitle title="استكشف حسب الفئة" actionText="عرض المزيد" />
+          <div className={styles.sixCardsGrid}>
+            {categories.map((category) => (
+              <CategoryCard
+                key={category.id}
+                title={category.title}
+                image={category.image}
+              />
+            ))}
+          </div>
+        </section>
+
+        <section className={styles.section}>
+          <SectionTitle title="المواسم والمهرجانات" actionText="عرض المزيد" />
+          <div className={styles.cardsGrid}>
+            {seasonEvents.map((event) => (
+              <EventCard
+                key={event.id}
+                id={event.id}
+                title={event.title}
+                subtitle={event.subtitle}
+                location={event.location}
+                image={event.image}
+                showDate={false}
+                showPrice={false}
+              />
+            ))}
+          </div>
+        </section>
+
+        <section className={styles.section}>
+          <SectionTitle title="استكشف حسب الموقع" actionText="عرض المزيد" />
+          <div className={styles.sixCardsGrid}>
+            {locations.map((location) => (
+              <CityCard
+                key={location.id}
+                title={location.title}
+                image={location.image}
+              />
+            ))}
+          </div>
+        </section>
+
+        <Footer />
       </div>
-    </section>
+    </main>
   )
 }
 

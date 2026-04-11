@@ -1,0 +1,101 @@
+.sidebarCard {
+  background-color: #1e1e1e;
+  border: 1px solid #2b2a2a;
+  border-radius: 18px;
+  min-height: 420px;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  direction: rtl;
+}
+
+.profileTop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 26px;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: var(--white-color);
+  flex-shrink: 0;
+}
+
+.profileText {
+  flex: 1;
+  text-align: right;
+}
+
+.profileName {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 3px;
+  color: var(--text-primary);
+}
+
+.profileEmail {
+  font-size: 12px;
+  color: var(--gray);
+  margin: 0;
+}
+
+.menuList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  min-height: 42px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+}
+
+.menuItem:hover {
+  background-color: #2b2a2a;
+}
+
+.active {
+  background-color: #2b2a2a;
+}
+
+.menuIcon {
+  font-size: 18px;
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+.menuText {
+  font-size: 14px;
+  color: var(--text-primary);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.logoutBtn {
+  margin-top: auto;
+  background: transparent;
+  border: none;
+  color: #ff3b3b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-size: 15px;
+  cursor: pointer;
+  padding-top: 20px;
+}
+
+.logoutIcon {
+  font-size: 18px;
+}

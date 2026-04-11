@@ -1,0 +1,46 @@
+.footer {
+  width: 100%;
+  padding: 32px 0 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  flex-wrap: wrap;
+  color: var(--text-primary);
+  font-size: 13px;
+}
+
+.links span {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.links span:hover {
+  color: var(--primary-color);
+}
+
+.payments {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.payment {
+  min-width: 52px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background-color: #1e1e1e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--gray);
+  font-size: 11px;
+  text-align: center;
+}

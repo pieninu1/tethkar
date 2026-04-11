@@ -1,0 +1,32 @@
+.card {
+  background: #2b2828;
+  border-radius: 18px;
+  padding: 20px;
+  min-height: 96px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.title {
+  font-size: 14px;
+  color: #d8d1c8;
+  margin-bottom: 10px;
+}
+
+.valueRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.value {
+  font-size: 34px;
+  color: white;
+  margin: 0;
+}
+
+.growth {
+  font-size: 12px;
+  color: #d8d1c8;
+}

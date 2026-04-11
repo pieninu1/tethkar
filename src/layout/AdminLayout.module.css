@@ -1,0 +1,148 @@
+.layout {
+  min-height: 100vh;
+  background-color: #1e1e1e;
+  color: #ffffff;
+  display: flex;
+  direction: rtl;
+}
+
+.sidebar {
+  width: 290px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: #252323;
+  padding: 34px 34px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-left: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.logo {
+  width: 130px;
+  height: auto;
+  display: block;
+  margin: 0 auto 72px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  text-decoration: none;
+  color: #f3f3f3;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 400;
+  padding: 2px 0;
+  transition: 0.2s ease;
+}
+
+.navItem:hover {
+  color: #e4d9c9;
+}
+
+.navItem svg {
+  font-size: 19px;
+  flex-shrink: 0;
+}
+
+.activeNavItem {
+  color: #e4d9c9;
+}
+
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  background: transparent;
+  border: none;
+  color: #ff3b30;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 400;
+  padding: 0;
+  transition: 0.2s ease;
+}
+
+.logoutBtn:hover {
+  color: #ff5c5c;
+}
+
+.logoutBtn svg {
+  font-size: 18px;
+}
+
+.mainContent {
+  flex: 1;
+  margin-right: 290px;
+  position: relative;
+}
+
+.header {
+  height: 95px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 26px 36px 0;
+  position: relative;
+}
+
+.profileCircle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+
+.searchWrapper {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.searchBox {
+  width: 420px;
+  height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+}
+
+.searchBox input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.searchBox input::placeholder {
+  color: #a8a8a8;
+}
+
+.searchIcon {
+  color: #a8a8a8;
+  font-size: 17px;
+}
+
+.pageContent {
+  padding: 18px 36px 32px;
+}
