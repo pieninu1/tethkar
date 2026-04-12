@@ -31,6 +31,9 @@ function UserTickets() {
     },
   ]
 
+  console.log("Active Tickets:", activeTickets)
+  console.log("Expired Tickets:", expiredTickets)
+
   return (
     <div className={styles.page} dir="rtl">
       <div className={styles.container}>
@@ -43,79 +46,103 @@ function UserTickets() {
             <div className={styles.sectionBlock}>
               <h2 className={styles.sectionTitle}>التذاكر النشطة</h2>
 
-              {activeTickets.map((ticket) => (
-                <div key={ticket.id} className={styles.ticketCard}>
-                  <div className={styles.ticketImageWrapper}>
-                    <img
-                      src={ticket.image}
-                      alt={ticket.title}
-                      className={styles.ticketImage}
-                    />
-                  </div>
+              {activeTickets.map((ticket) => {
+                console.log("Single Active Ticket:", ticket)
 
-                  <div className={styles.ticketContent}>
-                    <div className={styles.ticketHeader}>
-                      <h3 className={styles.ticketTitle}>{ticket.title}</h3>
-                      <p className={styles.ticketOrganizer}>{ticket.organizer}</p>
-                    </div>
-
-                    <p className={styles.ticketDescription}>
-                      {ticket.description}
-                    </p>
-                  </div>
-
-                  <div className={styles.ticketActions}>
-                    <button className={styles.detailsLink}>عرض التفاصيل</button>
-
-                    <div className={styles.downloadBtnWrapper}>
-                      <Button
-                        text={ticket.buttonText}
-                        disabled={ticket.buttonDisabled}
-                        className={styles.downloadBtn}
+                return (
+                  <div key={ticket.id} className={styles.ticketCard}>
+                    <div className={styles.ticketImageWrapper}>
+                      <img
+                        src={ticket.image}
+                        alt={ticket.title}
+                        className={styles.ticketImage}
                       />
                     </div>
+
+                    <div className={styles.ticketContent}>
+                      <div className={styles.ticketHeader}>
+                        <h3 className={styles.ticketTitle}>{ticket.title}</h3>
+                        <p className={styles.ticketOrganizer}>{ticket.organizer}</p>
+                      </div>
+
+                      <p className={styles.ticketDescription}>
+                        {ticket.description}
+                      </p>
+                    </div>
+
+                    <div className={styles.ticketActions}>
+                      <button
+                        className={styles.detailsLink}
+                        onClick={() => console.log("View details for:", ticket)}
+                      >
+                        عرض التفاصيل
+                      </button>
+
+                      <div className={styles.downloadBtnWrapper}>
+                        <Button
+                          text={ticket.buttonText}
+                          disabled={ticket.buttonDisabled}
+                          className={styles.downloadBtn}
+                          onClick={() =>
+                            console.log("Sending active ticket to backend:", ticket)
+                          }
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
 
             <div className={styles.sectionBlock}>
               <h2 className={styles.sectionTitle}>التذاكر المنتهية</h2>
 
-              {expiredTickets.map((ticket) => (
-                <div key={ticket.id} className={styles.ticketCard}>
-                  <div className={styles.ticketImageWrapper}>
-                    <img
-                      src={ticket.image}
-                      alt={ticket.title}
-                      className={styles.ticketImage}
-                    />
-                  </div>
+              {expiredTickets.map((ticket) => {
+                console.log("Single Expired Ticket:", ticket)
 
-                  <div className={styles.ticketContent}>
-                    <div className={styles.ticketHeader}>
-                      <h3 className={styles.ticketTitle}>{ticket.title}</h3>
-                      <p className={styles.ticketOrganizer}>{ticket.organizer}</p>
-                    </div>
-
-                    <p className={styles.ticketDescription}>
-                      {ticket.description}
-                    </p>
-                  </div>
-
-                  <div className={styles.ticketActions}>
-                    <button className={styles.detailsLink}>عرض التفاصيل</button>
-
-                    <div className={styles.downloadBtnWrapper}>
-                      <Button
-                        text={ticket.buttonText}
-                        disabled={ticket.buttonDisabled}
-                        className={styles.expiredBtn}
+                return (
+                  <div key={ticket.id} className={styles.ticketCard}>
+                    <div className={styles.ticketImageWrapper}>
+                      <img
+                        src={ticket.image}
+                        alt={ticket.title}
+                        className={styles.ticketImage}
                       />
                     </div>
+
+                    <div className={styles.ticketContent}>
+                      <div className={styles.ticketHeader}>
+                        <h3 className={styles.ticketTitle}>{ticket.title}</h3>
+                        <p className={styles.ticketOrganizer}>{ticket.organizer}</p>
+                      </div>
+
+                      <p className={styles.ticketDescription}>
+                        {ticket.description}
+                      </p>
+                    </div>
+
+                    <div className={styles.ticketActions}>
+                      <button
+                        className={styles.detailsLink}
+                        onClick={() => console.log("View details for:", ticket)}
+                      >
+                        عرض التفاصيل
+                      </button>
+
+                      <div className={styles.downloadBtnWrapper}>
+                        <Button
+                          text={ticket.buttonText}
+                          disabled={ticket.buttonDisabled}
+                          className={styles.expiredBtn}
+                          onClick={() =>
+                            console.log("Sending expired ticket to backend:", ticket)
+                          }
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </section>
         </main>

@@ -7,10 +7,17 @@ export const registerSchema = z
   .object({
     firstName: z.string().min(1, "الاسم الأول مطلوب"),
     lastName: z.string().min(1, "الاسم الأخير مطلوب"),
+
+    username: z
+      .string()
+      .min(1, "اسم المستخدم مطلوب")
+      .max(50, "اسم المستخدم طويل جداً"),
+
     email: z
       .string()
       .min(1, "البريد الإلكتروني مطلوب")
       .email("أدخل بريداً إلكترونياً صالحاً"),
+
     password: z
       .string()
       .min(1, "كلمة المرور مطلوبة")
@@ -18,6 +25,7 @@ export const registerSchema = z
         passwordRegex,
         "كلمة المرور يجب أن تحتوي على عدد من الأحرف الكبيرة والصغيرة والأرقام والرموز"
       ),
+
     confirmPassword: z.string().min(1, "تأكيد كلمة المرور مطلوب"),
   })
   .refine((data) => data.password === data.confirmPassword, {

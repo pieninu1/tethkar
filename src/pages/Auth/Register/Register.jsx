@@ -6,6 +6,7 @@ import Input from "../../../components/common/Input/Input"
 import Button from "../../../components/common/Button/Button"
 import { registerSchema } from "./registerSchema"
 import styles from "./Register.module.css"
+import { register as registerUser } from "../../../services/AuthService"
 
 const Register = () => {
   const navigate = useNavigate()
@@ -20,6 +21,7 @@ const Register = () => {
     defaultValues: {
       firstName: "",
       lastName: "",
+      username: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -28,14 +30,25 @@ const Register = () => {
 
   const onSubmit = async (data) => {
     try {
-      console.log(data)
+      const payload = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        username: data.username, // ✅ now real input
+        email: data.email,
+        password: data.password,
+      }
 
-      await new Promise((resolve) => setTimeout(resolve, 1200))
+      console.log("Sending Register Data:", payload)
 
-      localStorage.setItem("token", "dummy-token")
-      navigate("/home")
+      const response = await registerUser(payload)
+
+      console.log("Register Response:", response)
+
+      navigate("/") // go to login
+
     } catch (error) {
       console.error("Error registering", error)
+      alert(error.message)
     }
   }
 
@@ -58,6 +71,7 @@ const Register = () => {
 
             <FormModel>
               <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+                
                 <div className={styles.nameRow}>
                   <Input
                     type="text"
@@ -73,6 +87,14 @@ const Register = () => {
                     {...register("lastName")}
                   />
                 </div>
+
+                {/* 🔥 NEW FIELD */}
+                <Input
+                  type="text"
+                  placeholder="اسم المستخدم"
+                  error={errors.username?.message}
+                  {...register("username")}
+                />
 
                 <Input
                   type="email"
@@ -107,6 +129,7 @@ const Register = () => {
                     تسجيل الدخول
                   </Link>
                 </p>
+
               </form>
             </FormModel>
           </div>

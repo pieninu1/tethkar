@@ -60,6 +60,7 @@ const Home = () => {
                 location={event.location}
                 price={event.price}
                 image={event.image}
+                detailsPath={`/event/${event.id}`}
               />
             ))}
           </div>
@@ -79,6 +80,7 @@ const Home = () => {
                 price={event.price}
                 image={event.image}
                 variant="compact"
+                detailsPath={`/event/${event.id}`}
               />
             ))}
           </div>
@@ -110,6 +112,7 @@ const Home = () => {
                 image={event.image}
                 showDate={false}
                 showPrice={false}
+                detailsPath={`/event/${event.id}`}
               />
             ))}
           </div>

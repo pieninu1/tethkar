@@ -3,6 +3,7 @@ import Login from "./pages/Auth/Login/Login";
 import Register from "./pages/Auth/Register/Register";
 import ForgotPassword from "./pages/Auth/ForgotPassword/ForgotPassword";
 import Home from "./pages/User/Home/Home";
+import EventDetails  from "./pages/User/Event/Event";
 import Profile from "./pages/User/Profile/Profile";
 import UserTickets from "./pages/User/UserTickets/UserTickets";
 import UserFavorites from "./pages/User/UserFavorites/UserFavorites";
@@ -27,6 +28,7 @@ function App() {
         {/* USER */}
         <Route element={<Guard />}>
           <Route path="/home" element={<Home />} />
+          <Route path="/event/:id" element={<EventDetails  />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/tickets" element={<UserTickets />} />
           <Route path="/favorites" element={<UserFavorites />} />
@@ -36,7 +38,7 @@ function App() {
         <Route element={<Guard />}>
           <Route element={<OrganizerLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/events" element={<Event />} />
+            <Route path="/event" element={<Event />} />
             <Route path="/ticket-types" element={<TicketType />} />
           </Route>
         </Route>

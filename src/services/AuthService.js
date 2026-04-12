@@ -29,9 +29,9 @@ export const register = async (data) => {
 
   const result = await response.json();
 
-  if (!response.ok) {
-    throw new Error(result.message || "فشل إنشاء الحساب");
-  }
+  // if (!response.ok) {
+  //   throw new Error(result.message || "فشل إنشاء الحساب");
+  // }
 
   return result;
 };
