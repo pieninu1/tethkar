@@ -20,20 +20,20 @@ export const login = async (data) => {
 
 export const register = async (data) => {
   const response = await fetch(`${API_URL}/api/Auth/Register`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    firstName: data.firstName,
+    lastName: data.lastName,
+    username: data.username,
+    email: data.email,
+    password: data.password
+  })
+})
 
-  const result = await response.json();
-
-  // if (!response.ok) {
-  //   throw new Error(result.message || "فشل إنشاء الحساب");
-  // }
-
-  return result;
+  return response.json();;
 };
 
 export const forgotPassword = async (data) => {
