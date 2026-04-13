@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../../components/User/Navbar/Navbar";
 import Footer from "../../../components/common/Footer/Footer";
@@ -10,6 +10,7 @@ import styles from "./TicketBooking.module.css";
 function TicketBooking() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const dateScrollerRef = useRef(null);
 
   const [event, setEvent] = useState(null);
   const [ticketTypes, setTicketTypes] = useState([]);
@@ -77,6 +78,21 @@ function TicketBooking() {
     ? Number(selectedTicketType.price) * Number(quantity)
     : 0;
 
+  const formatDateCard = (date) => {
+    const dateObject = new Date(date);
+
+    const weekday = dateObject.toLocaleDateString("ar-SA", {
+      weekday: "long",
+    });
+
+    const dayMonth = dateObject.toLocaleDateString("ar-SA", {
+      day: "numeric",
+      month: "short",
+    });
+
+    return { weekday, dayMonth };
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -89,32 +105,16 @@ function TicketBooking() {
       setSubmitting(true);
       setMessage("");
 
-      const response = await bookTicket({
+      await bookTicket({
         ticketTypeId: Number(selectedTicketTypeId),
         eventDate: selectedDate,
         quantity: Number(quantity),
       });
 
-      if (typeof response === "string") {
-        if (response.includes("تم حجز")) {
-          setMessage("تم حجز التذكرة بنجاح.");
-          setTimeout(() => {
-            navigate("/tickets");
-          }, 1000);
-          return;
-        }
-
-        setMessage(response);
-        return;
-      }
-
-      setMessage("تم حجز التذكرة بنجاح.");
-      setTimeout(() => {
-        navigate("/tickets");
-      }, 1000);
+      navigate("/tickets");
     } catch (error) {
       console.error("Booking error:", error);
-      setMessage("تعذر إتمام الحجز.");
+      setMessage(error.message || "تعذر إتمام الحجز.");
     } finally {
       setSubmitting(false);
     }
@@ -176,51 +176,78 @@ function TicketBooking() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className={styles.form}>
-              <div className={styles.formGroup}>
-                <label className={styles.label}>نوع التذكرة</label>
-                <select
-                  className={styles.select}
-                  value={selectedTicketTypeId}
-                  onChange={(e) => setSelectedTicketTypeId(e.target.value)}
-                >
-                  {ticketTypes.map((ticketType) => (
-                    <option key={ticketType.id} value={ticketType.id}>
-                      {ticketType.name} - {ticketType.price} ر.س
-                    </option>
-                  ))}
-                </select>
+              <div className={styles.section}>
+                <h2 className={styles.sectionTitle}>نوع التذكرة</h2>
+                <div className={styles.ticketGrid}>
+                  {ticketTypes.map((ticketType) => {
+                    const isActive =
+                      String(ticketType.id) === String(selectedTicketTypeId);
+
+                    return (
+                      <button
+                        key={ticketType.id}
+                        type="button"
+                        className={`${styles.ticketCard} ${
+                          isActive ? styles.activeCard : ""
+                        }`}
+                        onClick={() =>
+                          setSelectedTicketTypeId(String(ticketType.id))
+                        }
+                      >
+                        <span className={styles.ticketTypeName}>
+                          {ticketType.name}
+                        </span>
+                        <span className={styles.ticketPrice}>
+                          {ticketType.price} ر.س
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
-              <div className={styles.formGroup}>
-                <label className={styles.label}>اليوم المتاح</label>
-                <select
-                  className={styles.select}
-                  value={selectedDate}
-                  onChange={(e) => setSelectedDate(e.target.value)}
-                >
-                  {availableDates.map((date) => (
-                    <option key={date} value={date}>
-                      {new Date(date).toLocaleDateString("ar-SA")}
-                    </option>
-                  ))}
-                </select>
+              <div className={styles.section}>
+                <h2 className={styles.sectionTitle}>اختر التاريخ</h2>
+
+                <div className={styles.dateGrid} ref={dateScrollerRef}>
+                  {availableDates.map((date) => {
+                    const { weekday, dayMonth } = formatDateCard(date);
+                    const isActive = selectedDate === date;
+
+                    return (
+                      <button
+                        key={date}
+                        type="button"
+                        className={`${styles.dateCard} ${
+                          isActive ? styles.activeDateCard : ""
+                        }`}
+                        onClick={() => setSelectedDate(date)}
+                      >
+                        <span className={styles.dateDay}>{weekday}</span>
+                        <span className={styles.dateNumber}>{dayMonth}</span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
-              <div className={styles.formGroup}>
-                <label className={styles.label}>الكمية</label>
-                <input
-                  type="number"
-                  min="1"
-                  max={selectedTicketType?.quantity || 1}
-                  value={quantity}
-                  onChange={(e) => setQuantity(Number(e.target.value))}
-                  className={styles.input}
-                />
-              </div>
+              <div className={styles.bottomRow}>
+                <div className={styles.quantityBox}>
+                  <label className={styles.label}>الكمية</label>
+                  <input
+                    type="number"
+                    min="1"
+                    max={selectedTicketType?.quantity || 1}
+                    value={quantity}
+                    onChange={(e) => setQuantity(Number(e.target.value))}
+                    className={styles.input}
+                  />
+                </div>
 
-              <div className={styles.totalBox}>
-                <span>الإجمالي</span>
-                <strong>{totalPrice} ر.س</strong>
+                <div className={styles.totalBox}>
+                  <span>الإجمالي</span>
+                  <strong>{totalPrice} ر.س</strong>
+                </div>
               </div>
 
               {message && <p className={styles.message}>{message}</p>}
