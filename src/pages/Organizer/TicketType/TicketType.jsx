@@ -76,7 +76,7 @@ const TicketType = () => {
     if (!ticketTypeToDelete) return
 
     try {
-      await deleteTicketType(ticketTypeToDelete.ticketTypeId)
+      await deleteTicketType(ticketTypeToDelete.id)
       await fetchTicketTypes()
       closeDeleteModal()
     } catch (error) {
@@ -86,7 +86,7 @@ const TicketType = () => {
 
   const handleTicketTypeSubmit = async (data) => {
     try {
-      if (data.ticketTypeId != null) {
+      if (data.id != null) {
         await updateTicketType(data)
       } else {
         await addTicketType(data)
@@ -110,8 +110,8 @@ const TicketType = () => {
           <div className={styles.emptyState}>لا توجد أنواع تذاكر حالياً</div>
         ) : (
           ticketTypes.map((ticketType) => (
-            <article key={ticketType.ticketTypeId} className={styles.card}>
-              <h2 className={styles.cardTitle}>{ticketType.typeName}</h2>
+            <article key={ticketType.id} className={styles.card}>
+              <h2 className={styles.cardTitle}>{ticketType.name}</h2>
 
               <p className={styles.meta}>
                 <span className={styles.label}>السعر:</span> {ticketType.price}
@@ -123,9 +123,7 @@ const TicketType = () => {
 
               <p className={styles.eventName}>
                 <span className={styles.label}>الفعالية:</span>{" "}
-                {ticketType.event?.name ||
-                  ticketType.event?.eventName ||
-                  "—"}
+                {ticketType.event?.name || "—"}
               </p>
 
               <div className={styles.cardActions}>
@@ -165,7 +163,7 @@ const TicketType = () => {
         title="حذف نوع التذكرة"
         message={
           ticketTypeToDelete
-            ? `هل أنت متأكد من حذف نوع التذكرة "${ticketTypeToDelete.typeName}"؟`
+            ? `هل أنت متأكد من حذف نوع التذكرة "${ticketTypeToDelete.name}"؟`
             : ""
         }
       />

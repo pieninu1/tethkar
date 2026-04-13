@@ -35,11 +35,11 @@ const TicketTypeModal = ({
 
     if (ticketType) {
       reset({
-        typeName: ticketType.typeName,
+        typeName: ticketType.name,
         price: ticketType.price,
         quantity: ticketType.quantity,
         eventId: ticketType.eventId,
-        ticketTypeId: ticketType.ticketTypeId,
+        ticketTypeId: ticketType.id,
       })
     } else {
       reset({
@@ -55,11 +55,11 @@ const TicketTypeModal = ({
   const handleFormSubmit = async (data) => {
     try {
       await onSubmit({
-        typeName: data.typeName,
+        name: data.typeName,
         price: Number(data.price),
         quantity: Number(data.quantity),
         eventId: Number(data.eventId),
-        ticketTypeId: ticketType?.ticketTypeId,
+        id: data.ticketTypeId,
       })
     } catch (error) {
       console.error("Error submitting ticket type", error)
@@ -78,7 +78,7 @@ const TicketTypeModal = ({
       <div className={styles.wrapper}>
         <div className={styles.headerRow}>
           <h2 className={styles.title}>
-            {ticketType ? `تعديل ${ticketType.typeName}` : "إضافة نوع تذكرة"}
+            {ticketType ? `تعديل ${ticketType.name}` : "إضافة نوع تذكرة"}
           </h2>
 
           <button
@@ -124,16 +124,15 @@ const TicketTypeModal = ({
             <select
               id="eventId"
               className={styles.select}
-              {...register("eventId", { valueAsNumber: true })}
+              {...register("eventId", {
+                setValueAs: (v) => (v === "" ? undefined : Number(v)),
+              })}
             >
               <option value="">اختر الفعالية</option>
 
               {events?.map((event) => (
-                <option
-                  key={event.id || event.eventId}
-                  value={event.id || event.eventId}
-                >
-                  {event.name || event.eventName}
+                <option key={event.id} value={event.id}>
+                  {event.name}
                 </option>
               ))}
             </select>

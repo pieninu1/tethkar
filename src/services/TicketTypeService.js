@@ -8,6 +8,19 @@ export const getTicketTypes = async () => {
       "Authorization": `Bearer ${localStorage.getItem("token")}`,
     },
   });
+
+  return response.json();
+};
+
+export const getTicketTypesByEventId = async (eventId) => {
+  const response = await fetch(`${API_URL}/api/TicketTypes/event/${eventId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+
   return response.json();
 };
 
@@ -20,18 +33,24 @@ export const addTicketType = async (ticketType) => {
     },
     body: JSON.stringify(ticketType),
   });
+
   return response.json();
 };
 
 export const updateTicketType = async (ticketType) => {
-  const response = await fetch(`${API_URL}/api/TicketTypes/${ticketType.ticketTypeId}`, {
+  const response = await fetch(`${API_URL}/api/TicketTypes/${ticketType.id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
       "Authorization": `Bearer ${localStorage.getItem("token")}`,
     },
-    body: JSON.stringify(ticketType),
+    body: JSON.stringify({
+      name: ticketType.name,
+      price: ticketType.price,
+      quantity: ticketType.quantity,
+    }),
   });
+
   return response.json();
 };
 
@@ -43,5 +62,6 @@ export const deleteTicketType = async (id) => {
       "Authorization": `Bearer ${localStorage.getItem("token")}`,
     },
   });
+
   return response.json();
 };

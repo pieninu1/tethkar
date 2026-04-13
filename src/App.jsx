@@ -4,6 +4,7 @@ import Register from "./pages/Auth/Register/Register";
 import ForgotPassword from "./pages/Auth/ForgotPassword/ForgotPassword";
 import Home from "./pages/User/Home/Home";
 import EventDetails from "./pages/User/Event/Event";
+import TicketBooking from "./pages/User/TicketBooking/TicketBooking";
 import Profile from "./pages/User/Profile/Profile";
 import UserTickets from "./pages/User/UserTickets/UserTickets";
 import UserFavorites from "./pages/User/UserFavorites/UserFavorites";
@@ -29,6 +30,7 @@ function App() {
         <Route element={<Guard allowedRoles={["User"]} />}>
           <Route path="/home" element={<Home />} />
           <Route path="/event/:id" element={<EventDetails />} />
+          <Route path="/tickets/:id" element={<TicketBooking />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/tickets" element={<UserTickets />} />
           <Route path="/favorites" element={<UserFavorites />} />
