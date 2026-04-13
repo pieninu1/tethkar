@@ -17,6 +17,7 @@ const CategoryModal = ({ isOpen, onClose, category, onSubmit }) => {
     mode: "all",
     defaultValues: {
       Name: "",
+      ImageUrl: "",
       Id: undefined,
     },
   })
@@ -26,8 +27,16 @@ const CategoryModal = ({ isOpen, onClose, category, onSubmit }) => {
 
     reset(
       category
-        ? { Name: category.name, Id: category.id }
-        : { Name: "", Id: undefined }
+        ? {
+            Name: category.name || "",
+            ImageUrl: category.imageUrl || "",
+            Id: category.id,
+          }
+        : {
+            Name: "",
+            ImageUrl: "",
+            Id: undefined,
+          }
     )
   }, [isOpen, category, reset])
 
@@ -35,6 +44,7 @@ const CategoryModal = ({ isOpen, onClose, category, onSubmit }) => {
     try {
       await onSubmit({
         Name: data.Name,
+        ImageUrl: data.ImageUrl,
         Id: category?.id,
       })
     } catch (error) {
@@ -75,6 +85,16 @@ const CategoryModal = ({ isOpen, onClose, category, onSubmit }) => {
               placeholder="أدخل اسم الفئة"
               error={errors.Name?.message}
               {...register("Name")}
+            />
+          </div>
+
+          <div className={styles.field}>
+            <Input
+              label="رابط صورة الفئة"
+              type="text"
+              placeholder="أدخل رابط الصورة"
+              error={errors.ImageUrl?.message}
+              {...register("ImageUrl")}
             />
           </div>
 

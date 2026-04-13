@@ -2,9 +2,7 @@ import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Modal from "../../../../components/common/Modal/Modal"
-import FormModel from "../../../../components/common/FormModel/FormModel"
 import Input from "../../../../components/common/Input/Input"
-import Button from "../../../../components/common/Button/Button"
 import { ticketTypeSchema } from "../TicketTypeSchema"
 import styles from "./TicketTypeModal.module.css"
 
@@ -33,24 +31,24 @@ const TicketTypeModal = ({
   })
 
   useEffect(() => {
-    if (isOpen) {
-      if (ticketType) {
-        reset({
-          typeName: ticketType.typeName,
-          price: ticketType.price,
-          quantity: ticketType.quantity,
-          eventId: ticketType.eventId,
-          ticketTypeId: ticketType.ticketTypeId,
-        })
-      } else {
-        reset({
-          typeName: "",
-          price: 0,
-          quantity: 1,
-          eventId: undefined,
-          ticketTypeId: undefined,
-        })
-      }
+    if (!isOpen) return
+
+    if (ticketType) {
+      reset({
+        typeName: ticketType.typeName,
+        price: ticketType.price,
+        quantity: ticketType.quantity,
+        eventId: ticketType.eventId,
+        ticketTypeId: ticketType.ticketTypeId,
+      })
+    } else {
+      reset({
+        typeName: "",
+        price: 0,
+        quantity: 1,
+        eventId: undefined,
+        ticketTypeId: undefined,
+      })
     }
   }, [isOpen, ticketType, reset])
 
@@ -63,21 +61,37 @@ const TicketTypeModal = ({
         eventId: Number(data.eventId),
         ticketTypeId: ticketType?.ticketTypeId,
       })
-      onClose()
     } catch (error) {
       console.error("Error submitting ticket type", error)
     }
   }
 
-  const title = ticketType
-    ? `تعديل ${ticketType.typeName}`
-    : "إضافة نوع تذكرة"
-
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={title}>
-      <FormModel>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title=""
+      hideHeader
+      className={styles.modalShell}
+      bodyClassName={styles.modalBody}
+    >
+      <div className={styles.wrapper}>
+        <div className={styles.headerRow}>
+          <h2 className={styles.title}>
+            {ticketType ? `تعديل ${ticketType.typeName}` : "إضافة نوع تذكرة"}
+          </h2>
+
+          <button
+            type="button"
+            className={styles.closeBtn}
+            onClick={onClose}
+            aria-label="إغلاق"
+          >
+            ×
+          </button>
+        </div>
+
         <form onSubmit={handleSubmit(handleFormSubmit)} className={styles.form}>
-          
           <Input
             label="نوع التذكرة"
             type="text"
@@ -103,7 +117,9 @@ const TicketTypeModal = ({
           />
 
           <div className={styles.field}>
-            <label htmlFor="eventId">الفعالية</label>
+            <label htmlFor="eventId" className={styles.selectLabel}>
+              الفعالية
+            </label>
 
             <select
               id="eventId"
@@ -113,32 +129,31 @@ const TicketTypeModal = ({
               <option value="">اختر الفعالية</option>
 
               {events?.map((event) => (
-                <option key={event.eventId} value={event.eventId}>
-                  {event.eventName}
+                <option
+                  key={event.id || event.eventId}
+                  value={event.id || event.eventId}
+                >
+                  {event.name || event.eventName}
                 </option>
               ))}
             </select>
 
             {errors.eventId && (
-              <span className={styles.error}>
-                {errors.eventId.message}
-              </span>
+              <span className={styles.error}>{errors.eventId.message}</span>
             )}
           </div>
 
-          <Button
-            type="submit"
-            text={
-              isSubmitting
-                ? "جاري الحفظ..."
-                : ticketType
-                ? "تحديث"
-                : "إضافة"
-            }
-            disabled={isSubmitting}
-          />
+          <div className={styles.actionRow}>
+            <button
+              type="submit"
+              className={styles.submitBtn}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "جاري الحفظ..." : ticketType ? "تحديث" : "إضافة"}
+            </button>
+          </div>
         </form>
-      </FormModel>
+      </div>
     </Modal>
   )
 }

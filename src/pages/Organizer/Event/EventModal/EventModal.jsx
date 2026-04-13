@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Modal from "../../../../components/common/Modal/Modal"
@@ -14,13 +14,10 @@ const EventModal = ({
   categories,
   onSubmit,
 }) => {
-  const [imagePreview, setImagePreview] = useState(null)
-
   const {
     register,
     handleSubmit,
     reset,
-    setValue,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(eventSchema),
@@ -33,7 +30,9 @@ const EventModal = ({
       Description: "",
       CityId: "",
       CategoryId: "",
-      Image: undefined,
+      CardImageUrl: "",
+      DetailsImageUrl1: "",
+      DetailsImageUrl2: "",
       Id: undefined,
     },
   })
@@ -50,10 +49,11 @@ const EventModal = ({
         Description: event.description || "",
         CityId: event.cityId ?? "",
         CategoryId: event.categoryId ?? "",
-        Image: event.image || undefined,
+        CardImageUrl: event.cardImageUrl || "",
+        DetailsImageUrl1: event.detailsImageUrl1 || "",
+        DetailsImageUrl2: event.detailsImageUrl2 || "",
         Id: event.id,
       })
-      setImagePreview(event.image || null)
     } else {
       reset({
         Name: "",
@@ -63,21 +63,13 @@ const EventModal = ({
         Description: "",
         CityId: "",
         CategoryId: "",
-        Image: undefined,
+        CardImageUrl: "",
+        DetailsImageUrl1: "",
+        DetailsImageUrl2: "",
         Id: undefined,
       })
-      setImagePreview(null)
     }
   }, [isOpen, event, reset])
-
-  const handleImageChange = (e) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-
-    const previewUrl = URL.createObjectURL(file)
-    setImagePreview(previewUrl)
-    setValue("Image", previewUrl, { shouldValidate: false })
-  }
 
   const handleFormSubmit = async (data) => {
     try {
@@ -90,7 +82,9 @@ const EventModal = ({
         Description: data.Description,
         CityId: Number(data.CityId),
         CategoryId: Number(data.CategoryId),
-        Image: data.Image || imagePreview || null,
+        CardImageUrl: data.CardImageUrl,
+        DetailsImageUrl1: data.DetailsImageUrl1,
+        DetailsImageUrl2: data.DetailsImageUrl2,
       })
     } catch (error) {
       console.error("Error submitting event", error)
@@ -207,7 +201,7 @@ const EventModal = ({
 
           <div className={styles.field}>
             <label htmlFor="Description" className={styles.selectLabel}>
-              الوصف
+              الوصف الطويل
             </label>
             <textarea
               id="Description"
@@ -219,27 +213,33 @@ const EventModal = ({
             )}
           </div>
 
-          <div className={styles.footerRow}>
-            <div className={styles.uploadArea}>
-              <label htmlFor="Image" className={styles.uploadLabel}>
-                رفع صورة
-              </label>
-              <input
-                id="Image"
-                type="file"
-                accept="image/*"
-                className={styles.fileInput}
-                onChange={handleImageChange}
+          <div className={styles.grid}>
+            <div className={styles.field}>
+              <Input
+                label="رابط صورة الكارد"
+                type="text"
+                error={errors.CardImageUrl?.message}
+                {...register("CardImageUrl")}
               />
             </div>
 
-            {imagePreview && (
-              <img
-                src={imagePreview}
-                alt="معاينة"
-                className={styles.previewImage}
+            <div className={styles.field}>
+              <Input
+                label="رابط صورة التفاصيل الأولى"
+                type="text"
+                error={errors.DetailsImageUrl1?.message}
+                {...register("DetailsImageUrl1")}
               />
-            )}
+            </div>
+
+            <div className={styles.field}>
+              <Input
+                label="رابط صورة التفاصيل الثانية"
+                type="text"
+                error={errors.DetailsImageUrl2?.message}
+                {...register("DetailsImageUrl2")}
+              />
+            </div>
           </div>
 
           <div className={styles.actionRow}>
@@ -248,7 +248,7 @@ const EventModal = ({
               className={styles.submitBtn}
               disabled={isSubmitting}
             >
-              {isSubmitting ? "جاري الحفظ..." : "إنشاء فعالية"}
+              {isSubmitting ? "جاري الحفظ..." : event ? "تحديث الفعالية" : "إنشاء فعالية"}
             </button>
           </div>
         </form>

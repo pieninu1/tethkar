@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Navbar from "../../../components/User/Navbar/Navbar"
 import HeroBanner from "../../../components/User/HeroBanner/HeroBanner"
 import SearchBar from "../../../components/common/SearchBar/SearchBar"
@@ -7,32 +7,79 @@ import EventCard from "../../../components/User/EventCard/EventCard"
 import CategoryCard from "../../../components/User/CategoryCard/CategoryCard"
 import CityCard from "../../../components/User/CityCard/CityCard"
 import Footer from "../../../components/common/Footer/Footer"
+import { getCities } from "../../../services/CityService"
+import { getCategories } from "../../../services/CategoryService"
+import { getEvents } from "../../../services/EventService"
 import {
   banners,
-  categories,
-  featuredEvents,
-  latestEvents,
-  locations,
   seasonEvents,
 } from "../../../data/HomeData"
 import styles from "./Home.module.css"
 
 const Home = () => {
   const [searchValue, setSearchValue] = useState("")
+  const [cities, setCities] = useState([])
+  const [categories, setCategories] = useState([])
+  const [events, setEvents] = useState([])
 
-  const filteredFeaturedEvents = useMemo(() => {
+  const filteredEvents = useMemo(() => {
     const value = searchValue.trim().toLowerCase()
 
-    if (!value) return featuredEvents
+    if (!value) return events
 
-    return featuredEvents.filter((event) => {
+    return events.filter((event) => {
       return (
-        event.title.toLowerCase().includes(value) ||
-        event.subtitle.toLowerCase().includes(value) ||
-        event.location.toLowerCase().includes(value)
+        event.name?.toLowerCase().includes(value) ||
+        event.city?.name?.toLowerCase().includes(value) ||
+        event.category?.name?.toLowerCase().includes(value) ||
+        event.venue?.toLowerCase().includes(value)
       )
     })
-  }, [searchValue])
+  }, [searchValue, events])
+
+  const featuredEvents = useMemo(() => {
+    return filteredEvents.slice(0, 6)
+  }, [filteredEvents])
+
+  const latestEvents = useMemo(() => {
+    return [...filteredEvents]
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .slice(0, 4)
+  }, [filteredEvents])
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const citiesData = await getCities()
+        setCities(citiesData)
+      } catch (error) {
+        console.error("Error fetching cities for home page", error)
+      }
+
+      try {
+        const categoriesData = await getCategories()
+        setCategories(categoriesData)
+      } catch (error) {
+        console.error("Error fetching categories for home page", error)
+      }
+
+      try {
+        const eventsData = await getEvents()
+        setEvents(eventsData)
+      } catch (error) {
+        console.error("Error fetching events for home page", error)
+      }
+    })()
+  }, [])
+
+  const formatEventDate = (startDateTime, endDateTime) => {
+    if (!startDateTime || !endDateTime) return ""
+
+    const start = new Date(startDateTime).toLocaleDateString("ar-SA")
+    const end = new Date(endDateTime).toLocaleDateString("ar-SA")
+
+    return `${start} - ${end}`
+  }
 
   return (
     <main className={styles.page}>
@@ -50,16 +97,15 @@ const Home = () => {
         <section className={styles.section}>
           <SectionTitle title="أبرز الفعاليات" actionText="عرض المزيد" />
           <div className={styles.cardsGrid}>
-            {filteredFeaturedEvents.map((event) => (
+            {featuredEvents.map((event) => (
               <EventCard
                 key={event.id}
                 id={event.id}
-                title={event.title}
-                subtitle={event.subtitle}
-                date={event.date}
-                location={event.location}
-                price={event.price}
-                image={event.image}
+                title={event.name}
+                subtitle={event.category?.name || ""}
+                date={formatEventDate(event.startDateTime, event.endDateTime)}
+                location={event.city?.name || event.venue}
+                image={event.cardImageUrl}
                 detailsPath={`/event/${event.id}`}
               />
             ))}
@@ -73,12 +119,11 @@ const Home = () => {
               <EventCard
                 key={event.id}
                 id={event.id}
-                title={event.title}
-                subtitle={event.subtitle}
-                date={event.date}
-                location={event.location}
-                price={event.price}
-                image={event.image}
+                title={event.name}
+                subtitle={event.category?.name || ""}
+                date={formatEventDate(event.startDateTime, event.endDateTime)}
+                location={event.city?.name || event.venue}
+                image={event.cardImageUrl}
                 variant="compact"
                 detailsPath={`/event/${event.id}`}
               />
@@ -92,8 +137,8 @@ const Home = () => {
             {categories.map((category) => (
               <CategoryCard
                 key={category.id}
-                title={category.title}
-                image={category.image}
+                title={category.name}
+                image={category.imageUrl}
               />
             ))}
           </div>
@@ -121,11 +166,11 @@ const Home = () => {
         <section className={styles.section}>
           <SectionTitle title="استكشف حسب الموقع" actionText="عرض المزيد" />
           <div className={styles.sixCardsGrid}>
-            {locations.map((location) => (
+            {cities.map((city) => (
               <CityCard
-                key={location.id}
-                title={location.title}
-                image={location.image}
+                key={city.id}
+                title={city.name}
+                image={city.imageUrl}
               />
             ))}
           </div>

@@ -58,7 +58,10 @@ export const addCategory = async (category) => {
   const response = await fetch(`${API_URL}/api/Categories`, {
     method: "POST",
     headers: getAuthHeaders(),
-    body: JSON.stringify(category),
+    body: JSON.stringify({
+      name: category.Name,
+      imageUrl: category.ImageUrl,
+    }),
   });
 
   return parseResponse(response);
@@ -68,7 +71,11 @@ export const updateCategory = async (category) => {
   const response = await fetch(`${API_URL}/api/Categories/${category.Id}`, {
     method: "PUT",
     headers: getAuthHeaders(),
-    body: JSON.stringify(category),
+    body: JSON.stringify({
+      id: category.Id,
+      name: category.Name,
+      imageUrl: category.ImageUrl,
+    }),
   });
 
   return parseResponse(response);

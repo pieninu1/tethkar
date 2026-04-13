@@ -23,18 +23,20 @@ const TicketType = () => {
   const fetchEvents = async () => {
     try {
       const data = await getEvents()
-      setEvents(data)
+      setEvents(Array.isArray(data) ? data : [])
     } catch (error) {
       console.error("Error fetching events", error)
+      setEvents([])
     }
   }
 
   const fetchTicketTypes = async () => {
     try {
       const data = await getTicketTypes()
-      setTicketTypes(data)
+      setTicketTypes(Array.isArray(data) ? data : [])
     } catch (error) {
       console.error("Error fetching ticket types", error)
+      setTicketTypes([])
     }
   }
 
@@ -71,34 +73,29 @@ const TicketType = () => {
   }
 
   const handleConfirmDelete = async () => {
-    if (ticketTypeToDelete) {
-      try {
-        await deleteTicketType(ticketTypeToDelete.ticketTypeId)
-        fetchTicketTypes()
-        closeDeleteModal()
-      } catch (error) {
-        console.error("Error deleting ticket type", error)
-      }
+    if (!ticketTypeToDelete) return
+
+    try {
+      await deleteTicketType(ticketTypeToDelete.ticketTypeId)
+      await fetchTicketTypes()
+      closeDeleteModal()
+    } catch (error) {
+      console.error("Error deleting ticket type", error)
     }
   }
 
   const handleTicketTypeSubmit = async (data) => {
-    if (data.ticketTypeId != null) {
-      try {
+    try {
+      if (data.ticketTypeId != null) {
         await updateTicketType(data)
-        fetchTicketTypes()
-        closeDefaultModal()
-      } catch (error) {
-        console.error("Error updating ticket type", error)
-      }
-    } else {
-      try {
+      } else {
         await addTicketType(data)
-        fetchTicketTypes()
-        closeDefaultModal()
-      } catch (error) {
-        console.error("Error adding ticket type", error)
       }
+
+      await fetchTicketTypes()
+      closeDefaultModal()
+    } catch (error) {
+      console.error("Error saving ticket type", error)
     }
   }
 
@@ -109,29 +106,48 @@ const TicketType = () => {
       </TopPart>
 
       <section className={styles.ticketTypesList}>
-        {ticketTypes.map((ticketType) => (
-          <article key={ticketType.ticketTypeId} className={styles.card}>
-            <h2 className={styles.cardTitle}>{ticketType.typeName}</h2>
-            <p className={styles.meta}>السعر: {ticketType.price}</p>
-            <p className={styles.meta}>الكمية: {ticketType.quantity}</p>
-            <p className={styles.eventName}>
-              الفعالية: {ticketType.event?.eventName || "—"}
-            </p>
+        {ticketTypes.length === 0 ? (
+          <div className={styles.emptyState}>لا توجد أنواع تذاكر حالياً</div>
+        ) : (
+          ticketTypes.map((ticketType) => (
+            <article key={ticketType.ticketTypeId} className={styles.card}>
+              <h2 className={styles.cardTitle}>{ticketType.typeName}</h2>
 
-            <div className={styles.cardActions}>
-              <Button
-                text="تعديل"
-                onClick={() => openEditModal(ticketType)}
-                variant="secondary"
-              />
-              <Button
-                text="حذف"
-                onClick={() => openDeleteModal(ticketType)}
-                variant="danger"
-              />
-            </div>
-          </article>
-        ))}
+              <p className={styles.meta}>
+                <span className={styles.label}>السعر:</span> {ticketType.price}
+              </p>
+
+              <p className={styles.meta}>
+                <span className={styles.label}>الكمية:</span> {ticketType.quantity}
+              </p>
+
+              <p className={styles.eventName}>
+                <span className={styles.label}>الفعالية:</span>{" "}
+                {ticketType.event?.name ||
+                  ticketType.event?.eventName ||
+                  "—"}
+              </p>
+
+              <div className={styles.cardActions}>
+                <button
+                  type="button"
+                  className={styles.editBtn}
+                  onClick={() => openEditModal(ticketType)}
+                >
+                  تعديل
+                </button>
+
+                <button
+                  type="button"
+                  className={styles.deleteBtn}
+                  onClick={() => openDeleteModal(ticketType)}
+                >
+                  حذف
+                </button>
+              </div>
+            </article>
+          ))
+        )}
       </section>
 
       <TicketTypeModal

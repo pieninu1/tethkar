@@ -17,6 +17,7 @@ const CityModal = ({ isOpen, onClose, city, onSubmit }) => {
     mode: "all",
     defaultValues: {
       Name: "",
+      ImageUrl: "",
       Id: undefined,
     },
   });
@@ -24,13 +25,26 @@ const CityModal = ({ isOpen, onClose, city, onSubmit }) => {
   useEffect(() => {
     if (!isOpen) return;
 
-    reset(city ? { Name: city.name, Id: city.id } : { Name: "", Id: undefined });
+    reset(
+      city
+        ? {
+            Name: city.name || "",
+            ImageUrl: city.imageUrl || "",
+            Id: city.id,
+          }
+        : {
+            Name: "",
+            ImageUrl: "",
+            Id: undefined,
+          }
+    );
   }, [isOpen, city, reset]);
 
   const handleFormSubmit = async (data) => {
     try {
       await onSubmit({
         Name: data.Name,
+        ImageUrl: data.ImageUrl,
         Id: city?.id,
       });
     } catch (error) {
@@ -71,6 +85,16 @@ const CityModal = ({ isOpen, onClose, city, onSubmit }) => {
               placeholder="أدخل اسم المدينة"
               error={errors.Name?.message}
               {...register("Name")}
+            />
+          </div>
+
+          <div className={styles.field}>
+            <Input
+              label="رابط صورة المدينة"
+              type="text"
+              placeholder="أدخل رابط الصورة"
+              error={errors.ImageUrl?.message}
+              {...register("ImageUrl")}
             />
           </div>
 

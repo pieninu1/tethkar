@@ -1,6 +1,5 @@
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import {
-  HiOutlineHome,
   HiOutlineTag,
   HiOutlineUsers,
   HiOutlineCog,
@@ -16,6 +15,8 @@ function AdminLayout() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("rememberMe");
     navigate("/");
   };
 
@@ -30,26 +31,6 @@ function AdminLayout() {
           />
 
           <nav className={styles.nav}>
-            <NavLink
-              to="/admin/dashboard"
-              className={({ isActive }) =>
-                `${styles.navItem} ${isActive ? styles.activeNavItem : ""}`
-              }
-            >
-              <HiOutlineHome />
-              <span>الرئيسية</span>
-            </NavLink>
-
-            <button className={styles.navItem} type="button">
-              <HiOutlineUsers />
-              <span>المنظمين</span>
-            </button>
-
-            <button className={styles.navItem} type="button">
-              <HiOutlineCalendar />
-              <span>الفعاليات</span>
-            </button>
-
             <NavLink
               to="/admin/categories"
               className={({ isActive }) =>
@@ -69,6 +50,16 @@ function AdminLayout() {
               <HiOutlineLocationMarker />
               <span>المدن</span>
             </NavLink>
+
+            <button className={styles.navItem} type="button">
+              <HiOutlineUsers />
+              <span>المنظمين</span>
+            </button>
+
+            <button className={styles.navItem} type="button">
+              <HiOutlineCalendar />
+              <span>الفعاليات</span>
+            </button>
 
             <button className={styles.navItem} type="button">
               <HiOutlineCog />

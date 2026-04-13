@@ -4,7 +4,12 @@ import DeleteModal from "../../../components/common/DeleteModal/DeleteModal"
 import TopPart from "../../../components/common/TopPart/TopPart"
 import Button from "../../../components/common/Button/Button"
 import styles from "./City.module.css"
-import { getCities, deleteCity } from "../../../services/CityService"
+import {
+  getCities,
+  addCity,
+  updateCity,
+  deleteCity,
+} from "../../../services/CityService"
 
 const City = () => {
   const [defaultModalOpen, setDefaultModalOpen] = useState(false)
@@ -65,25 +70,19 @@ const City = () => {
     }
   }
 
-  // local UI testing version
   const handleCitySubmit = async (data) => {
-    if (data.Id != null) {
-      setCities((prev) =>
-        prev.map((item) =>
-          item.id === data.Id ? { ...item, name: data.Name } : item
-        )
-      )
-    } else {
-      setCities((prev) => [
-        {
-          id: Date.now(),
-          name: data.Name,
-        },
-        ...prev,
-      ])
-    }
+    try {
+      if (data.Id != null) {
+        await updateCity(data)
+      } else {
+        await addCity(data)
+      }
 
-    closeDefaultModal()
+      await fetchCities()
+      closeDefaultModal()
+    } catch (error) {
+      console.error("Error saving city", error)
+    }
   }
 
   return (
@@ -101,6 +100,14 @@ const City = () => {
               <div className={styles.cardTop}>
                 <div className={styles.badge}>مدينة</div>
               </div>
+
+              {city.imageUrl ? (
+                <img
+                  src={city.imageUrl}
+                  alt={city.name}
+                  className={styles.cardImage}
+                />
+              ) : null}
 
               <h2 className={styles.name}>{city.name}</h2>
 

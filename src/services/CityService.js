@@ -44,7 +44,7 @@ const parseResponse = async (response) => {
 };
 
 export const getCities = async () => {
-  const response = await fetch(`${API_URL}/api/Cities`, {
+  const response = await fetch(`${API_URL}/api/City`, {
     method: "GET",
     headers: getAuthHeaders(),
   });
@@ -53,27 +53,34 @@ export const getCities = async () => {
 };
 
 export const addCity = async (city) => {
-  const response = await fetch(`${API_URL}/api/Cities`, {
+  const response = await fetch(`${API_URL}/api/City`, {
     method: "POST",
     headers: getAuthHeaders(),
-    body: JSON.stringify(city),
+    body: JSON.stringify({
+      name: city.Name,
+      imageUrl: city.ImageUrl,
+    }),
   });
 
   return parseResponse(response);
 };
 
 export const updateCity = async (city) => {
-  const response = await fetch(`${API_URL}/api/Cities/${city.Id}`, {
+  const response = await fetch(`${API_URL}/api/City/${city.Id}`, {
     method: "PUT",
     headers: getAuthHeaders(),
-    body: JSON.stringify(city),
+    body: JSON.stringify({
+      id: city.Id,
+      name: city.Name,
+      imageUrl: city.ImageUrl,
+    }),
   });
 
   return parseResponse(response);
 };
 
 export const deleteCity = async (id) => {
-  const response = await fetch(`${API_URL}/api/Cities/${id}`, {
+  const response = await fetch(`${API_URL}/api/City/${id}`, {
     method: "DELETE",
     headers: getAuthHeaders(),
   });

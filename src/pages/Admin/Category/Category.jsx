@@ -6,6 +6,8 @@ import Button from "../../../components/common/Button/Button"
 import styles from "./Category.module.css"
 import {
   getCategories,
+  addCategory,
+  updateCategory,
   deleteCategory,
 } from "../../../services/CategoryService"
 
@@ -69,23 +71,18 @@ const Category = () => {
   }
 
   const handleCategorySubmit = async (data) => {
-    if (data.Id != null) {
-      setCategories((prev) =>
-        prev.map((item) =>
-          item.id === data.Id ? { ...item, name: data.Name } : item
-        )
-      )
-    } else {
-      setCategories((prev) => [
-        {
-          id: Date.now(),
-          name: data.Name,
-        },
-        ...prev,
-      ])
-    }
+    try {
+      if (data.Id != null) {
+        await updateCategory(data)
+      } else {
+        await addCategory(data)
+      }
 
-    closeDefaultModal()
+      await fetchCategories()
+      closeDefaultModal()
+    } catch (error) {
+      console.error("Error saving category", error)
+    }
   }
 
   return (
@@ -103,6 +100,14 @@ const Category = () => {
               <div className={styles.cardTop}>
                 <div className={styles.badge}>فئة</div>
               </div>
+
+              {category.imageUrl ? (
+                <img
+                  src={category.imageUrl}
+                  alt={category.name}
+                  className={styles.cardImage}
+                />
+              ) : null}
 
               <h2 className={styles.name}>{category.name}</h2>
 

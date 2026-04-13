@@ -13,6 +13,11 @@ import {
 import { getCities } from "../../../services/CityService"
 import { getCategories } from "../../../services/CategoryService"
 
+const formatDateTime = (value) => {
+  if (!value) return "-"
+  return new Date(value).toLocaleString("ar-SA")
+}
+
 const Event = () => {
   const [defaultModalOpen, setDefaultModalOpen] = useState(false)
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
@@ -25,27 +30,33 @@ const Event = () => {
   const fetchEvents = async () => {
     try {
       const data = await getEvents()
-      setEvents(data)
+      console.log("Events in organizer:", data)
+      setEvents(Array.isArray(data) ? data : [])
     } catch (error) {
       console.error("Error fetching events", error)
+      setEvents([])
     }
   }
 
   const fetchCities = async () => {
     try {
       const data = await getCities()
-      setCities(data)
+      console.log("Cities in organizer:", data)
+      setCities(Array.isArray(data) ? data : [])
     } catch (error) {
       console.error("Error fetching cities", error)
+      setCities([])
     }
   }
 
   const fetchCategories = async () => {
     try {
       const data = await getCategories()
-      setCategories(data)
+      console.log("Categories in organizer:", data)
+      setCategories(Array.isArray(data) ? data : [])
     } catch (error) {
       console.error("Error fetching categories", error)
+      setCategories([])
     }
   }
 
@@ -123,9 +134,9 @@ const Event = () => {
             {events.map((event) => (
               <article key={event.id} className={styles.eventCard}>
                 <div className={styles.cardImageWrapper}>
-                  {event.image ? (
+                  {event.cardImageUrl ? (
                     <img
-                      src={event.image}
+                      src={event.cardImageUrl}
                       alt={event.name}
                       className={styles.cardImage}
                     />
@@ -138,13 +149,28 @@ const Event = () => {
                   <h2 className={styles.cardTitle}>{event.name}</h2>
 
                   <div className={styles.metaGroup}>
-                    <p className={styles.metaLine}>{event.startDateTime}</p>
-                    <p className={styles.metaLine}>{event.endDateTime}</p>
-                    <p className={styles.metaLine}>{event.venue}</p>
                     <p className={styles.metaLine}>
+                      <span className={styles.metaLabel}>من:</span>{" "}
+                      {formatDateTime(event.startDateTime)}
+                    </p>
+
+                    <p className={styles.metaLine}>
+                      <span className={styles.metaLabel}>إلى:</span>{" "}
+                      {formatDateTime(event.endDateTime)}
+                    </p>
+
+                    <p className={styles.metaLine}>
+                      <span className={styles.metaLabel}>الموقع:</span>{" "}
+                      {event.venue || "-"}
+                    </p>
+
+                    <p className={styles.metaLine}>
+                      <span className={styles.metaLabel}>المدينة:</span>{" "}
                       {event.city?.name || "-"}
                     </p>
+
                     <p className={styles.metaLine}>
+                      <span className={styles.metaLabel}>الفئة:</span>{" "}
                       {event.category?.name || "-"}
                     </p>
                   </div>

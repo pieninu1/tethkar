@@ -18,7 +18,7 @@ const EventCard = ({
       ? `${styles.card} ${styles.compactCard}`
       : styles.card
 
-  const targetPath = detailsPath || `/tickets/${id}`
+  const targetPath = detailsPath || `/event/${id}`
 
   return (
     <Link to={targetPath} className={cardClassName}>
@@ -36,24 +36,27 @@ const EventCard = ({
       </div>
 
       <div className={styles.content}>
-        <p className={styles.type}>{subtitle}</p>
+        {subtitle ? <p className={styles.type}>{subtitle}</p> : null}
+
         <h3 className={styles.title}>{title}</h3>
 
         <p className={styles.meta}>
           {date}
-          <span className={styles.dot}>•</span>
+          {location ? <span className={styles.dot}>•</span> : null}
           {location}
         </p>
 
-        <div className={styles.priceRow}>
-          <span className={styles.priceLabel}>يبدأ من</span>
-          <span className={styles.priceValue}>{price}</span>
-          <img
-            src="/images/riyal.svg"
-            alt="ريال"
-            className={styles.currencyIcon}
-          />
-        </div>
+        {price ? (
+          <div className={styles.priceRow}>
+            <span className={styles.priceLabel}>يبدأ من</span>
+            <span className={styles.priceValue}>{price}</span>
+            <img
+              src="/images/riyal.svg"
+              alt="ريال"
+              className={styles.currencyIcon}
+            />
+          </div>
+        ) : null}
       </div>
     </Link>
   )

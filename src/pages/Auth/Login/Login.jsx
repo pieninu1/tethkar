@@ -31,15 +31,37 @@ const Login = () => {
         email: data.email,
         password: data.password,
       })
-      console.log(response)
-      //console.log(data)
-       localStorage.setItem("token", response.token)
+
+      console.log("Login response:", response)
+
+      const token = response.token || response.Token
+      const roles = response.roles || response.Roles || []
+
+      localStorage.setItem("token", token)
+
+      let userRole = "User"
+
+      if (roles.includes("Admin")) {
+        userRole = "Admin"
+      } else if (roles.includes("Organizer")) {
+        userRole = "Organizer"
+      }
+
+      localStorage.setItem("role", userRole)
+
       if (data.rememberMe) {
         localStorage.setItem("rememberMe", "true")
       } else {
         localStorage.removeItem("rememberMe")
       }
-      navigate("/home")
+
+      if (userRole === "Admin") {
+        navigate("/admin/cities")
+      } else if (userRole === "Organizer") {
+        navigate("/organizer/dashboard")
+      } else {
+        navigate("/home")
+      }
     } catch (error) {
       console.error("Error logging in", error)
     }
@@ -72,7 +94,6 @@ const Login = () => {
 
             <FormModel>
               <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-                
                 <Input
                   type="email"
                   placeholder="البريد الإلكتروني"
@@ -114,7 +135,6 @@ const Login = () => {
                     إنشاء حساب
                   </Link>
                 </p>
-
               </form>
             </FormModel>
           </div>
