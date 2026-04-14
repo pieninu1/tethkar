@@ -10,12 +10,39 @@
   max-width: 1100px;
   margin: 0 auto;
   padding: 18px 20px 28px;
-  background: #1e1e1e;
+  background: var(--background-color);
   border-radius: 24px;
 }
 
 .heroSection {
   margin-top: 8px;
+  position: relative;
+}
+
+.backBtn {
+  position: absolute;
+  top: 4px;
+  right: 0;
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 22px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(6px);
+  z-index: 2;
+}
+
+.backBtn:hover {
+  background: var(--primary-color);
+  color: #212020;
+  transform: scale(1.05);
 }
 
 .pageTitle {
@@ -24,6 +51,7 @@
   color: var(--text-primary);
   text-align: right;
   margin: 0 0 18px;
+  padding-right: 56px;
 }
 
 .imagesGrid {
@@ -58,44 +86,59 @@
 .detailsSection {
   display: grid;
   grid-template-columns: 320px 1fr;
-  gap: 22px;
-  margin-top: 26px;
+  gap: 26px;
+  margin-top: 28px;
   align-items: start;
 }
 
 .bookingCard {
   background-color: #232222;
   border: 1px solid #2b2a2a;
-  border-radius: 16px;
+  border-radius: 18px;
   padding: 18px;
   display: flex;
   flex-direction: column;
   gap: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
 }
 
 .infoItem {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 12px;
+}
+
+.infoItem:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.infoContent {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 12px;
-  color: var(--text-primary);
+  direction: rtl;
+}
+
+.infoIcon {
+  color: #ffffff;
+  font-size: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .infoText {
   font-size: 14px;
   color: var(--text-primary);
   text-align: right;
-  line-height: 1.7;
-}
-
-.infoIcon {
-  font-size: 18px;
-  flex-shrink: 0;
+  line-height: 1.8;
 }
 
 .bookBtn {
-  margin-top: 8px;
-  height: 44px;
+  margin-top: 10px;
+  height: 46px;
   border-radius: 12px;
   background-color: var(--primary-color);
   color: #212020;
@@ -104,7 +147,7 @@
   justify-content: center;
   text-decoration: none;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   transition: 0.3s;
 }
 
@@ -113,24 +156,28 @@
 }
 
 .descriptionBlock {
-  padding-top: 6px;
+  padding-top: 4px;
 }
 
 .descriptionText {
   font-size: 15px;
-  line-height: 2;
+  line-height: 2.1;
   color: var(--text-primary);
   margin: 0;
 }
 
 .termsSection {
-  margin-top: 28px;
+  margin-top: 34px;
+  background-color: #232222;
+  border: 1px solid #2b2a2a;
+  border-radius: 18px;
+  padding: 22px 22px 18px;
 }
 
 .termsTitle {
-  font-size: 20px;
-  font-weight: 600;
-  margin: 0 0 14px;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 16px;
   color: var(--text-primary);
   text-align: right;
 }
@@ -143,18 +190,52 @@
   font-size: 14px;
 }
 
+.termsList li {
+  margin-bottom: 6px;
+}
+
+.termsText {
+  max-height: 90px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  line-height: 2;
+  color: var(--text-secondary);
+  font-size: 14px;
+  white-space: pre-line;
+}
+
+.expanded {
+  max-height: 500px;
+}
+
 .moreBtn {
-  margin-top: 18px;
+  margin-top: 10px;
   background: transparent;
   border: none;
-  color: var(--text-primary);
-  font-size: 14px;
+  color: var(--primary-color);
   cursor: pointer;
-  padding: 0;
+  font-weight: 600;
+  animation: bounce 1.2s infinite;
 }
 
 .moreBtn:hover {
-  opacity: 0.7;
+  opacity: 0.85;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.icon {
+  color: white;
+  font-size: 18px;
 }
 
 @media (max-width: 992px) {
@@ -167,6 +248,11 @@
   .largeImage {
     height: 300px;
   }
+
+  .backBtn {
+    top: 0;
+    right: 0;
+  }
 }
 
 @media (max-width: 768px) {
@@ -177,6 +263,7 @@
 
   .pageTitle {
     font-size: 24px;
+    padding-right: 52px;
   }
 
   .largeImage,
@@ -185,7 +272,18 @@
   }
 
   .descriptionText,
-  .termsList {
+  .termsList,
+  .termsText {
     font-size: 13px;
+  }
+
+  .termsTitle {
+    font-size: 18px;
+  }
+
+  .backBtn {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
   }
 }

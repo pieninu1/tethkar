@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import Button from "../../common/Button/Button"
 import styles from "./HeroBanner.module.css"
 
-const HeroBanner = ({ banners = [], buttonText }) => {
+const HeroBanner = ({ banners = [], buttonText = "احجز الآن" }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
@@ -14,6 +14,12 @@ const HeroBanner = ({ banners = [], buttonText }) => {
 
     return () => clearInterval(interval)
   }, [banners])
+
+  useEffect(() => {
+    if (currentIndex >= banners.length) {
+      setCurrentIndex(0)
+    }
+  }, [banners, currentIndex])
 
   if (!banners.length) return null
 
@@ -31,10 +37,12 @@ const HeroBanner = ({ banners = [], buttonText }) => {
     setCurrentIndex(index)
   }
 
+  const finalButtonText = currentBanner.buttonText || buttonText
+
   return (
     <section
       className={styles.hero}
-      style={{ backgroundImage: `url(${currentBanner.image})` }}
+      style={{ backgroundImage: `url(${currentBanner.imageUrl})` }}
     >
       <div className={styles.overlay}>
         <button
@@ -51,7 +59,14 @@ const HeroBanner = ({ banners = [], buttonText }) => {
           <p className={styles.subtitle}>{currentBanner.subtitle}</p>
 
           <div className={styles.buttonWrapper}>
-            <Button text={buttonText} />
+            <Button
+              text={finalButtonText}
+              onClick={() => {
+                if (currentBanner.buttonLink) {
+                  window.location.href = currentBanner.buttonLink
+                }
+              }}
+            />
           </div>
 
           <div className={styles.dots}>

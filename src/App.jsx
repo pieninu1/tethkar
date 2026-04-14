@@ -1,21 +1,22 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Login from "./pages/Auth/Login/Login";
-import Register from "./pages/Auth/Register/Register";
-import ForgotPassword from "./pages/Auth/ForgotPassword/ForgotPassword";
-import Home from "./pages/User/Home/Home";
-import EventDetails from "./pages/User/Event/Event";
-import TicketBooking from "./pages/User/TicketBooking/TicketBooking";
-import Profile from "./pages/User/Profile/Profile";
-import UserTickets from "./pages/User/UserTickets/UserTickets";
-import UserFavorites from "./pages/User/UserFavorites/UserFavorites";
-import Event from "./pages/Organizer/Event/Event";
-import TicketType from "./pages/Organizer/TicketType/TicketType";
-import Dashboard from "./pages/Organizer/Dashboard/Dashboard";
-import Category from "./pages/Admin/Category/Category";
-import City from "./pages/Admin/City/City";
-import OrganizerLayout from "./layout/OrganizerLayout";
-import AdminLayout from "./layout/AdminLayout";
-import Guard from "./Guard/Guard";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import Login from "./pages/Auth/Login/Login"
+import Register from "./pages/Auth/Register/Register"
+import ForgotPassword from "./pages/Auth/ForgotPassword/ForgotPassword"
+import Home from "./pages/User/Home/Home"
+import EventDetails from "./pages/User/Event/Event"
+import TicketBooking from "./pages/User/TicketBooking/TicketBooking"
+import Profile from "./pages/User/Profile/Profile"
+import UserTickets from "./pages/User/UserTickets/UserTickets"
+import UserFavorites from "./pages/User/UserFavorites/UserFavorites"
+import Event from "./pages/Organizer/Event/Event"
+import TicketType from "./pages/Organizer/TicketType/TicketType"
+import Dashboard from "./pages/Organizer/Dashboard/Dashboard"
+import Category from "./pages/Admin/Category/Category"
+import City from "./pages/Admin/City/City"
+import HeroBanner from "./pages/Admin/HeroBanner/HeroBanner"
+import OrganizerLayout from "./layout/OrganizerLayout"
+import AdminLayout from "./layout/AdminLayout"
+import Guard from "./Guard/Guard"
 
 function App() {
   return (
@@ -50,13 +51,14 @@ function App() {
           <Route path="/admin" element={<AdminLayout />}>
             <Route path="cities" element={<City />} />
             <Route path="categories" element={<Category />} />
+            <Route path="hero-banners" element={<HeroBanner />} />
           </Route>
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -1,4 +1,4 @@
-import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import { Outlet, NavLink, useNavigate } from "react-router-dom"
 import {
   HiOutlineTag,
   HiOutlineUsers,
@@ -7,18 +7,19 @@ import {
   HiOutlineSearch,
   HiOutlineLocationMarker,
   HiOutlineCalendar,
-} from "react-icons/hi";
-import styles from "./AdminLayout.module.css";
+  HiOutlinePhotograph,
+} from "react-icons/hi"
+import styles from "./AdminLayout.module.css"
 
 function AdminLayout() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
-    localStorage.removeItem("rememberMe");
-    navigate("/");
-  };
+    localStorage.removeItem("token")
+    localStorage.removeItem("role")
+    localStorage.removeItem("rememberMe")
+    navigate("/")
+  }
 
   return (
     <div className={styles.layout}>
@@ -49,6 +50,16 @@ function AdminLayout() {
             >
               <HiOutlineLocationMarker />
               <span>المدن</span>
+            </NavLink>
+
+            <NavLink
+              to="/admin/hero-banners"
+              className={({ isActive }) =>
+                `${styles.navItem} ${isActive ? styles.activeNavItem : ""}`
+              }
+            >
+              <HiOutlinePhotograph />
+              <span>البنرات الرئيسية</span>
             </NavLink>
 
             <button className={styles.navItem} type="button">
@@ -91,7 +102,7 @@ function AdminLayout() {
         </main>
       </div>
     </div>
-  );
+  )
 }
 
-export default AdminLayout;
+export default AdminLayout

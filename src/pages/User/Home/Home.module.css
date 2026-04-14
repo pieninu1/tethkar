@@ -1,16 +1,16 @@
 .page {
   min-height: 100vh;
   background-color: var(--background-color);
-  padding: 12px 0;
+  padding: 0;
   font-family: var(--font-family);
 }
 
 .container {
   max-width: 1280px;
   margin: 0 auto;
-  background: #1e1e1e;
-  border-radius: 24px;
-  padding: 16px 24px 24px;
+  background: var(--background-color);
+  border-radius: 0;
+  padding: 16px 24px 32px;
 }
 
 .container > *:first-child {
@@ -18,28 +18,173 @@
 }
 
 .section {
-  margin-top: 28px; /* slightly tighter */
+  margin-top: 34px;
+}
+
+.scrollRow {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin-top: 16px;
+  padding-bottom: 6px;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.scrollRow::-webkit-scrollbar {
+  display: none;
+}
+
+.featuredCardSlot {
+  flex: 0 0 220px;
+  min-width: 220px;
+  max-width: 220px;
+}
+
+.latestCardSlot {
+  flex: 0 0 205px;
+  min-width: 205px;
+  max-width: 205px;
+}
+
+.categoryCardSlot {
+  flex: 0 0 180px;
+  min-width: 180px;
+  max-width: 180px;
+}
+
+.cityCardSlot {
+  flex: 0 0 200px;
+  min-width: 200px;
+  max-width: 200px;
 }
 
 .cardsGrid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 16px; 
-  margin-top: 16px;
-}
-
-.fourCardsGrid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
   margin-top: 16px;
 }
 
-.sixCardsGrid {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 16px;
+/* Skeleton */
+.skeletonCard {
+  background: linear-gradient(180deg, #262525 0%, #222121 100%);
+  border-radius: 18px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.skeletonImage,
+.skeletonCompactImage,
+.skeletonLineSmall,
+.skeletonLineLarge,
+.skeletonLineMedium,
+.skeletonLinePrice,
+.skeletonCompactLineSmall,
+.skeletonCompactLineLarge,
+.skeletonCompactLineMedium,
+.skeletonCompactLinePrice {
+  background: linear-gradient(
+    90deg,
+    #2c2b2b 0%,
+    #383737 50%,
+    #2c2b2b 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.3s linear infinite;
+}
+
+.skeletonImage {
+  height: 220px;
+}
+
+.skeletonContent {
+  padding: 12px 12px 14px;
+}
+
+.skeletonLineSmall {
+  width: 28%;
+  height: 12px;
+  border-radius: 999px;
+  margin-bottom: 10px;
+  margin-inline-start: auto;
+}
+
+.skeletonLineLarge {
+  width: 72%;
+  height: 20px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+  margin-inline-start: auto;
+}
+
+.skeletonLineMedium {
+  width: 58%;
+  height: 12px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+  margin-inline-start: auto;
+}
+
+.skeletonLinePrice {
+  width: 36%;
+  height: 14px;
+  border-radius: 999px;
+  margin-inline-start: auto;
+}
+
+.skeletonCompactCard {
+  border-radius: 12px;
+}
+
+.skeletonCompactImage {
+  height: 140px;
+}
+
+.skeletonCompactContent {
+  padding: 8px 8px 10px;
+}
+
+.skeletonCompactLineSmall {
+  width: 26%;
+  height: 10px;
+  border-radius: 999px;
+  margin-bottom: 8px;
+  margin-inline-start: auto;
+}
+
+.skeletonCompactLineLarge {
+  width: 70%;
+  height: 16px;
+  border-radius: 999px;
+  margin-bottom: 10px;
+  margin-inline-start: auto;
+}
+
+.skeletonCompactLineMedium {
+  width: 54%;
+  height: 10px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+  margin-inline-start: auto;
+}
+
+.skeletonCompactLinePrice {
+  width: 34%;
+  height: 12px;
+  border-radius: 999px;
+  margin-inline-start: auto;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 @media (max-width: 1200px) {
@@ -47,24 +192,66 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .fourCardsGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .featuredCardSlot {
+    flex: 0 0 210px;
+    min-width: 210px;
+    max-width: 210px;
   }
 
-  .sixCardsGrid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .latestCardSlot {
+    flex: 0 0 190px;
+    min-width: 190px;
+    max-width: 190px;
+  }
+
+  .categoryCardSlot {
+    flex: 0 0 170px;
+    min-width: 170px;
+    max-width: 170px;
+  }
+
+  .cityCardSlot {
+    flex: 0 0 185px;
+    min-width: 185px;
+    max-width: 185px;
   }
 }
 
 @media (max-width: 900px) {
-  .cardsGrid,
-  .fourCardsGrid,
-  .sixCardsGrid {
+  .cardsGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .container {
-    padding: 14px 18px 20px;
+    padding: 14px 18px 24px;
+  }
+
+  .section {
+    margin-top: 28px;
+  }
+
+  .featuredCardSlot {
+    flex: 0 0 200px;
+    min-width: 200px;
+    max-width: 200px;
+  }
+
+  .latestCardSlot {
+    flex: 0 0 180px;
+    min-width: 180px;
+    max-width: 180px;
+  }
+
+  .categoryCardSlot {
+    flex: 0 0 160px;
+    min-width: 160px;
+    max-width: 160px;
+  }
+
+  .cityCardSlot {
+    flex: 0 0 175px;
+    min-width: 175px;
+    max-width: 175px;
   }
 }
 
@@ -74,13 +261,35 @@
   }
 
   .container {
-    padding: 12px 14px 16px;
+    padding: 12px 14px 18px;
     border-radius: 18px;
   }
 
-  .cardsGrid,
-  .fourCardsGrid,
-  .sixCardsGrid {
+  .cardsGrid {
     grid-template-columns: 1fr;
+  }
+
+  .featuredCardSlot {
+    flex: 0 0 190px;
+    min-width: 190px;
+    max-width: 190px;
+  }
+
+  .latestCardSlot {
+    flex: 0 0 170px;
+    min-width: 170px;
+    max-width: 170px;
+  }
+
+  .categoryCardSlot {
+    flex: 0 0 150px;
+    min-width: 150px;
+    max-width: 150px;
+  }
+
+  .cityCardSlot {
+    flex: 0 0 165px;
+    min-width: 165px;
+    max-width: 165px;
   }
 }

@@ -1,24 +1,3 @@
-export const banners = [
-  {
-    id: 1,
-    title: "يوم التأسيس",
-    subtitle: "ثلاثة قرون من العز والفخر",
-    image: "/images/banner-one.jpg",
-  },
-  {
-    id: 2,
-    title: "ليالي استثنائية",
-    subtitle: "فعاليات مميزة وتجارب لا تُنسى",
-    image: "/images/banner-two.jpg",
-  },
-  {
-    id: 3,
-    title: "استكشف أجمل الفعاليات",
-    subtitle: "احجز تذكرتك بسهولة وفي ثوانٍ",
-    image: "/images/banner-three.jpg",
-  },
-]
-
 export const featuredEvents = [
   {
     id: 1,

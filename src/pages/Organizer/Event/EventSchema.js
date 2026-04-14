@@ -6,6 +6,7 @@ export const eventSchema = z.object({
   EndDateTime: z.string().min(1, "تاريخ النهاية مطلوب"),
   Venue: z.string().min(1, "الموقع مطلوب"),
   Description: z.string().min(1, "الوصف الطويل مطلوب"),
+  TermsAndConditions: z.string().min(1, "الشروط والأحكام مطلوبة"),
 
   CityId: z.any().refine((value) => value !== "", {
     message: "المدينة مطلوبة",

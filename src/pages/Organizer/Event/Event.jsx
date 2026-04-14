@@ -30,34 +30,20 @@ const Event = () => {
   const fetchEvents = async () => {
     try {
       const data = await getEvents()
-      console.log("Events in organizer:", data)
       setEvents(Array.isArray(data) ? data : [])
-    } catch (error) {
-      console.error("Error fetching events", error)
+    } catch {
       setEvents([])
     }
   }
 
   const fetchCities = async () => {
-    try {
-      const data = await getCities()
-      console.log("Cities in organizer:", data)
-      setCities(Array.isArray(data) ? data : [])
-    } catch (error) {
-      console.error("Error fetching cities", error)
-      setCities([])
-    }
+    const data = await getCities()
+    setCities(Array.isArray(data) ? data : [])
   }
 
   const fetchCategories = async () => {
-    try {
-      const data = await getCategories()
-      console.log("Categories in organizer:", data)
-      setCategories(Array.isArray(data) ? data : [])
-    } catch (error) {
-      console.error("Error fetching categories", error)
-      setCategories([])
-    }
+    const data = await getCategories()
+    setCategories(Array.isArray(data) ? data : [])
   }
 
   useEffect(() => {
@@ -95,33 +81,24 @@ const Event = () => {
 
   const handleConfirmDelete = async () => {
     if (!eventToDelete) return
-
-    try {
-      await deleteEvent(eventToDelete.id)
-      await fetchEvents()
-      closeDeleteModal()
-    } catch (error) {
-      console.error("Error deleting event", error)
-    }
+    await deleteEvent(eventToDelete.id)
+    await fetchEvents()
+    closeDeleteModal()
   }
 
   const handleEventSubmit = async (data) => {
-    try {
-      if (data.Id != null) {
-        await updateEvent(data)
-      } else {
-        await addEvent(data)
-      }
-
-      await fetchEvents()
-      closeDefaultModal()
-    } catch (error) {
-      console.error("Error saving event", error)
+    if (data.Id != null) {
+      await updateEvent(data)
+    } else {
+      await addEvent(data)
     }
+
+    await fetchEvents()
+    closeDefaultModal()
   }
 
   return (
-    <main className={styles.page} aria-label="الفعاليات">
+    <main className={styles.page}>
       <TopPart title="الفعاليات">
         <Button text="إنشاء فعالية" onClick={openAddModal} />
       </TopPart>
@@ -131,72 +108,59 @@ const Event = () => {
           <div className={styles.emptyState}>لا توجد فعاليات حالياً</div>
         ) : (
           <div className={styles.eventsList}>
-            {events.map((event) => (
-              <article key={event.id} className={styles.eventCard}>
-                <div className={styles.cardImageWrapper}>
-                  {event.cardImageUrl ? (
-                    <img
-                      src={event.cardImageUrl}
-                      alt={event.name}
-                      className={styles.cardImage}
-                    />
-                  ) : (
-                    <div className={styles.imagePlaceholder}>بدون صورة</div>
-                  )}
-                </div>
+            {events.map((event) => {
+              const shortTerms =
+                event.termsAndConditions?.slice(0, 80) || ""
 
-                <div className={styles.cardContent}>
-                  <h2 className={styles.cardTitle}>{event.name}</h2>
-
-                  <div className={styles.metaGroup}>
-                    <p className={styles.metaLine}>
-                      <span className={styles.metaLabel}>من:</span>{" "}
-                      {formatDateTime(event.startDateTime)}
-                    </p>
-
-                    <p className={styles.metaLine}>
-                      <span className={styles.metaLabel}>إلى:</span>{" "}
-                      {formatDateTime(event.endDateTime)}
-                    </p>
-
-                    <p className={styles.metaLine}>
-                      <span className={styles.metaLabel}>الموقع:</span>{" "}
-                      {event.venue || "-"}
-                    </p>
-
-                    <p className={styles.metaLine}>
-                      <span className={styles.metaLabel}>المدينة:</span>{" "}
-                      {event.city?.name || "-"}
-                    </p>
-
-                    <p className={styles.metaLine}>
-                      <span className={styles.metaLabel}>الفئة:</span>{" "}
-                      {event.category?.name || "-"}
-                    </p>
+              return (
+                <article key={event.id} className={styles.eventCard}>
+                  <div className={styles.cardImageWrapper}>
+                    {event.cardImageUrl ? (
+                      <img
+                        src={event.cardImageUrl}
+                        alt={event.name}
+                        className={styles.cardImage}
+                      />
+                    ) : (
+                      <div className={styles.imagePlaceholder}>بدون صورة</div>
+                    )}
                   </div>
 
-                  <p className={styles.description}>{event.description}</p>
+                  <div className={styles.cardContent}>
+                    <h2 className={styles.cardTitle}>{event.name}</h2>
 
-                  <div className={styles.cardActions}>
-                    <button
-                      type="button"
-                      className={styles.editBtn}
-                      onClick={() => openEditModal(event)}
-                    >
-                      تعديل
-                    </button>
+                    <div className={styles.metaGroup}>
+                      <p>من: {formatDateTime(event.startDateTime)}</p>
+                      <p>إلى: {formatDateTime(event.endDateTime)}</p>
+                      <p>الموقع: {event.venue}</p>
+                    </div>
 
-                    <button
-                      type="button"
-                      className={styles.deleteBtn}
-                      onClick={() => openDeleteModal(event)}
-                    >
-                      حذف
-                    </button>
+                    <p className={styles.description}>{event.description}</p>
+
+                    {event.termsAndConditions && (
+                      <div className={styles.termsPreview}>
+                        {shortTerms}...
+                        <button
+                          className={styles.moreBtn}
+                          onClick={() => openEditModal(event)}
+                        >
+                          المزيد
+                        </button>
+                      </div>
+                    )}
+
+                    <div className={styles.cardActions}>
+                      <button onClick={() => openEditModal(event)}>
+                        تعديل
+                      </button>
+                      <button onClick={() => openDeleteModal(event)}>
+                        حذف
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </article>
-            ))}
+                </article>
+              )
+            })}
           </div>
         )}
       </section>
@@ -214,12 +178,6 @@ const Event = () => {
         isOpen={deleteModalOpen}
         onClose={closeDeleteModal}
         onConfirm={handleConfirmDelete}
-        title="حذف الفعالية"
-        message={
-          eventToDelete
-            ? `هل أنت متأكد من حذف الفعالية "${eventToDelete.name}"؟`
-            : ""
-        }
       />
     </main>
   )

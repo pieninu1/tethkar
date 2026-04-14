@@ -23,9 +23,7 @@ const parseResponse = async (response) => {
         const errorText = await response.text()
         if (errorText) errorMessage = errorText
       }
-    } catch {
-      // keep fallback
-    }
+    } catch {}
 
     throw new Error(errorMessage)
   }
@@ -36,7 +34,6 @@ const parseResponse = async (response) => {
     if (contentType.includes("application/json")) {
       return await response.json()
     }
-
     return await response.text()
   } catch {
     return null
@@ -48,7 +45,6 @@ export const getEvents = async () => {
     method: "GET",
     headers: getAuthHeaders(),
   })
-
   return parseResponse(response)
 }
 
@@ -57,7 +53,6 @@ export const getEventById = async (id) => {
     method: "GET",
     headers: getAuthHeaders(),
   })
-
   return parseResponse(response)
 }
 
@@ -72,6 +67,7 @@ export const addEvent = async (event) => {
       createdAt: new Date().toISOString(),
       venue: event.Venue,
       description: event.Description,
+      termsAndConditions: event.TermsAndConditions,
       cardImageUrl: event.CardImageUrl,
       detailsImageUrl1: event.DetailsImageUrl1,
       detailsImageUrl2: event.DetailsImageUrl2,
@@ -79,7 +75,6 @@ export const addEvent = async (event) => {
       categoryId: event.CategoryId,
     }),
   })
-
   return parseResponse(response)
 }
 
@@ -94,6 +89,7 @@ export const updateEvent = async (event) => {
       endDateTime: event.EndDateTime,
       venue: event.Venue,
       description: event.Description,
+      termsAndConditions: event.TermsAndConditions,
       cardImageUrl: event.CardImageUrl,
       detailsImageUrl1: event.DetailsImageUrl1,
       detailsImageUrl2: event.DetailsImageUrl2,
@@ -101,7 +97,6 @@ export const updateEvent = async (event) => {
       categoryId: event.CategoryId,
     }),
   })
-
   return parseResponse(response)
 }
 
@@ -110,6 +105,5 @@ export const deleteEvent = async (id) => {
     method: "DELETE",
     headers: getAuthHeaders(),
   })
-
   return parseResponse(response)
 }
