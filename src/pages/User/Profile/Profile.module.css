@@ -6,8 +6,8 @@
 
 .container {
   width: 100%;
-  max-width: 1100px;
-  margin: 0 auto;
+  max-width: 100%; /* 🔥 changed from 1100px */
+  margin: 0;       /* 🔥 removed centering */
   padding: 0 20px 20px;
 }
 

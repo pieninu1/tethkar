@@ -1,51 +1,60 @@
-import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Navbar from "../../../components/User/Navbar/Navbar";
-import Footer from "../../../components/common/Footer/Footer";
-import ProfileSidebar from "../../../components/User/ProfileSidebar/ProfileSidebar";
-import Button from "../../../components/common/Button/Button";
-import { getMyTickets } from "../../../services/TicketService";
-import styles from "./UserTickets.module.css";
+import { useEffect, useMemo, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import Navbar from "../../../components/User/Navbar/Navbar"
+import Footer from "../../../components/common/Footer/Footer"
+import ProfileSidebar from "../../../components/User/ProfileSidebar/ProfileSidebar"
+import Button from "../../../components/common/Button/Button"
+import { getMyTickets } from "../../../services/TicketService"
+import { getProfile } from "../../../services/AuthService"
+import styles from "./UserTickets.module.css"
 
 function UserTickets() {
-  const navigate = useNavigate();
-  const [tickets, setTickets] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate()
+  const [tickets, setTickets] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
-    const fetchTickets = async () => {
+    const fetchData = async () => {
       try {
-        const data = await getMyTickets();
-        setTickets(Array.isArray(data) ? data : []);
-      } catch (error) {
-        console.error("Error fetching user tickets:", error);
-        setTickets([]);
-      } finally {
-        setLoading(false);
-      }
-    };
+        const [ticketsData, profileData] = await Promise.all([
+          getMyTickets(),
+          getProfile(),
+        ])
 
-    fetchTickets();
-  }, []);
+        setTickets(Array.isArray(ticketsData) ? ticketsData : [])
+        setUser(profileData)
+      } catch (error) {
+        console.error("Error fetching user tickets/profile:", error)
+        setTickets([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
 
   const activeTickets = useMemo(() => {
-    return tickets.filter((ticket) => ticket.status === "Active");
-  }, [tickets]);
+    return tickets.filter((ticket) => ticket.status === "Active")
+  }, [tickets])
 
   const expiredTickets = useMemo(() => {
-    return tickets.filter((ticket) => ticket.status === "Expired");
-  }, [tickets]);
+    return tickets.filter((ticket) => ticket.status === "Expired")
+  }, [tickets])
 
   const mapTicketForUi = (ticket) => ({
     id: ticket.ticketId,
     title: ticket.eventName,
     organizer: ticket.ticketTypeName,
-    description: `موعد الفعالية: ${new Date(ticket.eventDate).toLocaleDateString("ar-SA")} - المدينة: ${ticket.cityName}`,
+    description: `موعد الفعالية: ${new Date(ticket.eventDate).toLocaleDateString(
+      "ar-SA"
+    )} - المدينة: ${ticket.cityName}`,
     image: ticket.cardImageUrl || "/images/login-image.png",
     buttonText: "تنزيل التذكرة",
     buttonDisabled: ticket.status === "Expired",
     raw: ticket,
-  });
+  })
 
   if (loading) {
     return (
@@ -53,7 +62,7 @@ function UserTickets() {
         <div className={styles.container}>
           <Navbar />
           <main className={styles.mainContent}>
-            <ProfileSidebar activeItem="tickets" />
+            <ProfileSidebar activeItem="tickets" user={user} />
             <section className={styles.leftSection}>
               <div className={styles.sectionBlock}>جاري تحميل التذاكر...</div>
             </section>
@@ -61,7 +70,7 @@ function UserTickets() {
           <Footer />
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -70,7 +79,7 @@ function UserTickets() {
         <Navbar />
 
         <main className={styles.mainContent}>
-          <ProfileSidebar activeItem="tickets" />
+          <ProfileSidebar activeItem="tickets" user={user} />
 
           <section className={styles.leftSection}>
             <div className={styles.sectionBlock}>
@@ -82,7 +91,7 @@ function UserTickets() {
                 </div>
               ) : (
                 activeTickets.map((ticket) => {
-                  const uiTicket = mapTicketForUi(ticket);
+                  const uiTicket = mapTicketForUi(ticket)
 
                   return (
                     <div key={uiTicket.id} className={styles.ticketCard}>
@@ -127,7 +136,7 @@ function UserTickets() {
                         </div>
                       </div>
                     </div>
-                  );
+                  )
                 })
               )}
             </div>
@@ -139,7 +148,7 @@ function UserTickets() {
                 <div className={styles.emptyState}>لا توجد تذاكر منتهية.</div>
               ) : (
                 expiredTickets.map((ticket) => {
-                  const uiTicket = mapTicketForUi(ticket);
+                  const uiTicket = mapTicketForUi(ticket)
 
                   return (
                     <div key={uiTicket.id} className={styles.ticketCard}>
@@ -184,7 +193,7 @@ function UserTickets() {
                         </div>
                       </div>
                     </div>
-                  );
+                  )
                 })
               )}
             </div>
@@ -194,7 +203,7 @@ function UserTickets() {
         <Footer />
       </div>
     </div>
-  );
+  )
 }
 
-export default UserTickets;
+export default UserTickets

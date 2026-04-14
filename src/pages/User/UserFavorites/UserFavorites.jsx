@@ -4,11 +4,13 @@ import Footer from "../../../components/common/Footer/Footer"
 import ProfileSidebar from "../../../components/User/ProfileSidebar/ProfileSidebar"
 import EventCard from "../../../components/User/EventCard/EventCard"
 import { getUserFavorites } from "../../../services/UserFavoriteService"
+import { getProfile } from "../../../services/AuthService"
 import styles from "./UserFavorites.module.css"
 
 function UserFavorites() {
   const [favoriteEvents, setFavoriteEvents] = useState([])
   const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState(null)
 
   const formatSingleDate = (dateValue) => {
     const date = new Date(dateValue)
@@ -34,18 +36,24 @@ function UserFavorites() {
   }
 
   useEffect(() => {
-    const fetchFavorites = async () => {
+    const fetchData = async () => {
       try {
-        const data = await getUserFavorites()
-        setFavoriteEvents(data)
+        const [favoritesData, profileData] = await Promise.all([
+          getUserFavorites(),
+          getProfile(),
+        ])
+
+        setFavoriteEvents(Array.isArray(favoritesData) ? favoritesData : [])
+        setUser(profileData)
       } catch (error) {
-        console.error("Error fetching favorite events", error)
+        console.error("Error fetching favorites/profile", error)
+        setFavoriteEvents([])
       } finally {
         setLoading(false)
       }
     }
 
-    fetchFavorites()
+    fetchData()
   }, [])
 
   const handleFavoriteChange = (eventId, isFavorite) => {
@@ -60,7 +68,7 @@ function UserFavorites() {
         <Navbar />
 
         <main className={styles.mainContent}>
-          <ProfileSidebar activeItem="favorites" />
+          <ProfileSidebar activeItem="favorites" user={user} />
 
           <section className={styles.leftSection}>
             <div className={styles.sectionBlock}>
