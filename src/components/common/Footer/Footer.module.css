@@ -1,46 +1,97 @@
 .footer {
   width: 100%;
-  padding: 32px 0 12px;
+  padding: 80px 0 24px;
   display: flex;
   flex-direction: column;
+  gap: 28px;
+  direction: rtl;
+}
+
+.topRow {
+  width: 100%;
+  display: flex;
   align-items: center;
-  gap: 24px;
+  justify-content: space-between;
+  direction: ltr;
+}
+
+.socials {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .links {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 22px;
+  gap: 28px;
   flex-wrap: wrap;
-  color: var(--text-primary);
-  font-size: 13px;
+  direction: rtl;
+  text-align: right;
 }
 
 .links span {
   cursor: pointer;
-  transition: color 0.3s ease;
+  font-size: 14px;
+  color: var(--text-primary);
+  transition: 0.2s;
+  white-space: nowrap;
 }
 
 .links span:hover {
   color: var(--primary-color);
 }
 
-.payments {
+.socialButton {
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  cursor: pointer;
+  padding: 0;
 }
 
-.payment {
-  min-width: 52px;
+.socialIcon {
+  font-size: 18px;
+  color: #fff;
+}
+
+.payments {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.paymentBox {
+  min-width: 60px;
+  height: 34px;
   padding: 6px 10px;
-  border-radius: 8px;
-  background-color: #1e1e1e;
+  border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  color: var(--gray);
-  font-size: 11px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.paymentImage {
+  height: 15px;
+  width: 30px;
+  object-fit: contain;
+}
+
+@media (max-width: 900px) {
+  .topRow {
+    flex-direction: column;
+    gap: 20px;
+    direction: rtl;
+  }
+
+  .links {
+    justify-content: center;
+    text-align: center;
+  }
 }

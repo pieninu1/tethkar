@@ -4,12 +4,11 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px 40px;
-  background-color: #1e1e1e;
+  background-color: var(--background-color);  
   direction: rtl;
   box-sizing: border-box;
 }
 
-/* RIGHT SIDE */
 .rightSection {
   display: flex;
   align-items: center;

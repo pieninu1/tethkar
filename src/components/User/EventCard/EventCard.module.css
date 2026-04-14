@@ -6,17 +6,11 @@
   cursor: pointer;
   text-decoration: none;
   position: relative;
-  transform: translateY(0) scale(1);
-  transition:
-    transform 0.32s ease,
-    box-shadow 0.32s ease,
-    background-color 0.32s ease;
-  will-change: transform;
 }
 
 .card:hover {
-  transform: translateY(-8px) scale(1.01);
-  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+  filter: brightness(1.02);
 }
 
 .imageWrapper {
@@ -29,12 +23,6 @@
   height: 220px;
   object-fit: cover;
   display: block;
-  transform: scale(1);
-  transition: transform 0.45s ease;
-}
-
-.card:hover .image {
-  transform: scale(1.04);
 }
 
 .favoriteBtn {
@@ -51,17 +39,11 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition:
-    background-color 0.22s ease,
-    transform 0.22s ease,
-    box-shadow 0.22s ease;
   z-index: 2;
 }
 
 .favoriteBtn:hover {
   background: rgba(35, 35, 35, 0.92);
-  transform: scale(1.07);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.22);
 }
 
 .favoriteBtnActive {
@@ -71,12 +53,10 @@
 .favoriteIcon {
   font-size: 18px;
   color: #ffffff;
-  transition: color 0.22s ease, transform 0.22s ease;
 }
 
 .filled {
   color: #ff6b81;
-  transform: scale(1.04);
 }
 
 .content {

@@ -38,11 +38,14 @@ const Navbar = () => {
   return (
     <nav className={styles.navbar}>
       <div className={styles.rightSection}>
-        <img
-          src="/images/the-logo.png"
-          alt="Tethkar Logo"
-          className={styles.logo}
-        />
+        {/* ✅ LOGO NOW CLICKABLE */}
+        <Link to="/home">
+          <img
+            src="/images/the-logo.png"
+            alt="Tethkar Logo"
+            className={styles.logo}
+          />
+        </Link>
 
         <ul className={styles.navLinks}>
           <li>

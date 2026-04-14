@@ -23,6 +23,8 @@
 
 .scrollRow {
   display: flex;
+  flex-direction: row;
+  direction: rtl;
   gap: 16px;
   overflow-x: auto;
   overflow-y: hidden;

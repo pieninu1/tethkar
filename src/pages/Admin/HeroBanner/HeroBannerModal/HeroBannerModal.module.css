@@ -10,6 +10,9 @@
 .modalBody {
   color: inherit;
   padding: 0;
+  max-height: 80vh;
+  overflow-y: auto;
+  direction: ltr;
 }
 
 .wrapper {
